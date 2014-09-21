@@ -1,11 +1,21 @@
 <ion-view title="User Profile">
 	<ion-content class="">
-				<form ng-submit="editUser(currentUser)">
+				<form ng-submit="editUser()">
+					<div class="item item-divider">Profile Image</div>
+					<div class="list card">
+						<div class="item item-image">
+							<img src="cover.jpg">
+						</div>
+					</div>
+					<label for="image-url" class="item item-input">
+							<span class="input-label">Image Url</span>
+							<input type="text" value="{{currentUser.image_url}}" autofocus true>
+						</label>
 					<div class="list">
 					<div class="item item-divider">Basic Info</div>
 						<label for="firstname" class="item item-input">
 							<span class="input-label">First Name</span>
-							<input type="text" value="{{currentUser.firstname}}">
+							<input type="text" value="{{currentUser.firstname}}" autofocus true>
 						</label>
 						<label for="lastname" class="item item-input">
 							<span class="input-label">Last Name</span>
@@ -13,9 +23,13 @@
 						</label>
 						<label for="email" class="item item-input">
 							<span class="input-label">Email</span>
-							<input type="text" value="{{currentUser.email}}">
+							<input type="email" value="{{currentUser.email}}">
 						</label>
-						<div class="item item-divider">Description</div>
+						<div class="item item-divider">Bio</div>
+						<label for="age" class="item item-input">
+							<span class="input-label">Age</span>
+							<input type="date" value="{{currentUser.age}}">
+						</label>
 						<label for="description" class="item item-input">
 							<textarea rows="10" placeholder="Write a short bio..."></textarea>
 						</label>

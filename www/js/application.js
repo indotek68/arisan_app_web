@@ -22,9 +22,13 @@ app = angular.module("starter", ["ionic"]).run(function($ionicPlatform) {
     url: "/signin",
     templateUrl: "templates/signin.html",
     controller: "UsersCtrl"
-  }).state("profile", {
-    url: "/user/:id/edit",
-    templateUrl: "templates/profile.html",
+  }).state("profile-page", {
+    url: "/users/:id",
+    templateUrl: "templates/profile-page.html",
+    controller: "UsersCtrl"
+  }).state("profile-edit", {
+    url: "/users/:id/edit",
+    templateUrl: "templates/profile-edit.html",
     controller: "UsersCtrl"
   });
   return $urlRouterProvider.otherwise("/");
@@ -47,7 +51,6 @@ app.controller("UsersCtrl", [
   "$scope", "$http", function($scope, $http) {
     $scope.users = [];
     $scope.newUser = {};
-    $scope.newToDo = {};
     $scope.getUsers = function() {
       return $http.get("http://localhost:3000/users.json").success(function(data) {
         return $scope.users = data;
@@ -61,6 +64,11 @@ app.controller("UsersCtrl", [
       }).error(function(errs) {
         $scope.errors = errs["errors"];
         return console.log($scope.errors);
+      });
+    };
+    $scope.editUser = function() {
+      return $http.put("http://localhost:3000/users/1.json").success(function(data) {
+        return console.log(data);
       });
     };
     return $scope.getUsers();

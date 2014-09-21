@@ -19,9 +19,14 @@ app = angular.module("starter", ["ionic"]).run(($ionicPlatform) ->
   	templateUrl: "templates/signin.html",
   	controller: "UsersCtrl"
   })
-  .state("profile",{
-  	url: "/user/:id/edit",
-  	templateUrl: "templates/profile.html",
+  .state("profile-page",{
+    url: "/users/:id",
+    templateUrl: "templates/profile-page.html",
+    controller: "UsersCtrl"
+  })
+  .state("profile-edit",{
+  	url: "/users/:id/edit",
+  	templateUrl: "templates/profile-edit.html",
   	controller: "UsersCtrl"
   })
   # if none of the above states are matched, use this as the fallback
