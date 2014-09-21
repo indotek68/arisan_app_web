@@ -13,17 +13,29 @@ app = angular.module("starter", ["ionic"]).run(function($ionicPlatform) {
   $stateProvider.state("main", {
     url: "/",
     templateUrl: "templates/main.html",
-    controller: "RoomCtrl"
+    controller: "UsersCtrl"
+  }).state("signup", {
+    url: "/signup",
+    templateUrl: "templates/signup.html",
+    controller: "UsersCtrl"
+  }).state("signin", {
+    url: "/signin",
+    templateUrl: "templates/signin.html",
+    controller: "UsersCtrl"
+  }).state("profile", {
+    url: "/user/:id/edit",
+    templateUrl: "templates/profile.html",
+    controller: "UsersCtrl"
   });
   return $urlRouterProvider.otherwise("/");
 });
 
-app.controller("RoomCtrl", [
+app.controller("RoomsCtrl", [
   "$scope", "$http", function($scope, $http) {
-    console.log($scope);
+    console.log("Hello");
     $scope.getRooms = function() {
       return $http.get("http://localhost:3000/rooms.json").success(function(data) {
-        $scope.todos = data;
+        $scope.room = data;
         return console.log(data);
       });
     };
@@ -31,6 +43,28 @@ app.controller("RoomCtrl", [
   }
 ]);
 
-
+app.controller("UsersCtrl", [
+  "$scope", "$http", function($scope, $http) {
+    $scope.users = [];
+    $scope.newUser = {};
+    $scope.newToDo = {};
+    $scope.getUsers = function() {
+      return $http.get("http://localhost:3000/users.json").success(function(data) {
+        return $scope.users = data;
+      });
+    };
+    $scope.createUser = function() {
+      return $http.post("http://localhost:3000/users.json", $scope.newUser).success(function(data) {
+        console.log(data);
+        $scope.users.push(data);
+        return $scope.newUser = {};
+      }).error(function(errs) {
+        $scope.errors = errs["errors"];
+        return console.log($scope.errors);
+      });
+    };
+    return $scope.getUsers();
+  }
+]);
 
 

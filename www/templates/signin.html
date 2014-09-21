@@ -1,0 +1,26 @@
+<ion-view title="Sign In">
+	<ion-nav-buttons side="left">
+      <a class="button button-clear" href="/">
+        Cancel
+      </a>
+    </ion-nav-buttons>
+	<ion-content class="">
+		<div class="row">
+			<div class="col">
+				<form ng-submit="">
+    				<div class="list">	
+	    				<label class="item item-input item-stacked-label">
+		  					<span class="input-lable">Email</span>
+		    				<input type="text" ng-model="newUser.email" />
+	    				</label>
+	    				<label class="item item-input item-stacked-label">
+		  					<span class="input-lable">Password</span>
+		    				<input type="password" ng-model="newUser.password" />
+	    				</label>
+	    				<button class="button button-large button-block button-">Sign In</button>
+    				</div>
+    			</form>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>
