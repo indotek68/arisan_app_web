@@ -1,0 +1,51 @@
+<ion-view title="Create Circle">
+	<ion-content class="">
+				<form ng-submit="createCircle(circle)">
+						<label for="circle-name" class="item item-input">
+							<span class="input-label">Circle Name</span>
+							<input type="text" value="{{circle.name}}" ng-model="cicle.name">
+						</label>
+					<div class="list">
+						<label for="max-people" class="item item-input item-select">
+							<div class="input-label">Max People</div>
+								<select name="max-people" ng-model='circle.num_people'>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12" selected>12</option>
+								</select>
+						</label>
+						<label for="schedule" class="item item-input item-select">
+							<div class="input-label">Schedule</div>
+								<select name="schedule" ng-model='circle.schedule'>
+									<option value="Weekly">Weekly</option>
+									<option value="Bi-Weekly">Bi-Weekly</option>
+									<option value="Monthly" selected>Monthly</option>
+								</select>
+						</label>
+						<label for="email" class="item item-input">
+							<span class="input-label">Email</span>
+							<input type="email" value="{{user.email}}" ng-model="user.email">
+						</label>
+						<div class="item item-divider">Bio</div>
+						<label for="age" class="item item-input">
+							<span class="input-label">Birthday</span>
+							<input type="date" value="{{user.age}}" ng-model="user.age">
+						</label>
+						<label for="description" class="item item-input">
+							<textarea rows="5" ng-model="user.description" placeholder="Write a short bio...">{{user.description}}</textarea>
+						</label>
+					<div class="row">
+						<div class="col">
+							<a href="#/users/1" class="button button-large button-block button-positive">Review Profile</a>
+						</div>
+					</div>
+				</form>
+	</ion-content>
+</ion-view>

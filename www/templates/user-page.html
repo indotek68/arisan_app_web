@@ -1,4 +1,4 @@
-<ion-view title="{{user.firstname}}'s Profile">
+<ion-view hide-nav-bar="false">
 	<ion-content class="">
 		<div class="list card">
 			<div class="item item-thumbnail-left">
@@ -15,6 +15,8 @@
 				<p>{{user.email}}</p>
 				<h3>Description:</h3>
 				<p>Description: {{user.description}}</p>
+				<h3>Current Circles: </h3>
+				<h3>Previous Circles: </h3>
 			</div>
 			<div class="item tabs tabs-secondary tabs-icon-left">
 			    <button class="tab-item button button-clear button-calm">
@@ -22,7 +24,7 @@
 			    </button>
 			    <button class="tab-item button button-clear button-assertive" ng-click="repDown()">
 			      <i class="icon ion-thumbsdown"></i> Rep Down
-			    </button>
+			    <!-- </button> -->
 			    <!-- <button class="tab-item button button-clear button-dark">
 			      <i class="icon ion-chatbox"></i> Comment
 			    </button> -->

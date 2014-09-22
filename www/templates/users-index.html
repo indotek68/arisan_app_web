@@ -1,0 +1,20 @@
+<ion-view title="Users"class="">
+	<ion-content class="">
+	 	<div class="list">
+			<label class="item item-input">
+				<i class="icon ion-search placeholder-icon"></i>
+			    <input type="text" placeholder="Search">
+			</label>
+			<div ng-repeat="user in users">
+		 		<a href="#/users/{{user.id}}" ng-click="showUser(user)"class="item item-avatar">
+			 		<img src="{{user.image_url}}" alt="">
+		 			<h3>{{user.firstname}} {{user.lastname}}</h3>
+		 			<div class="">
+						<i class="icon ion-star"></i> 
+						{{user.reputation}}
+					</div>
+		 		</a>
+	 		</div>
+	 	</div>
+	</ion-content>
+</ion-view>

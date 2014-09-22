@@ -22,33 +22,49 @@ app = angular.module("starter", ["ionic"]).run(function($ionicPlatform) {
     url: "/signin",
     templateUrl: "templates/signin.html",
     controller: "UsersCtrl"
-  }).state("profile-page", {
+  }).state("users-index", {
+    url: "/users",
+    templateUrl: "templates/users-index.html",
+    controller: "UsersCtrl"
+  }).state("user-page", {
     url: "/users/:id",
-    templateUrl: "templates/profile-page.html",
+    templateUrl: "templates/user-page.html",
     controller: "UsersCtrl"
-  }).state("profile-edit", {
+  }).state("user-edit", {
     url: "/users/:id/edit",
-    templateUrl: "templates/profile-edit.html",
+    templateUrl: "templates/user-edit.html",
     controller: "UsersCtrl"
+  }).state("circles-index", {
+    url: "/circles",
+    templateUrl: "templates/circles-index.html",
+    controller: "CirclesCtrl"
+  }).state('circle-page', {
+    url: '/circle/:id',
+    templateUrl: "templates/circle-page.html",
+    controller: "CirclesCtrl"
+  }).state('circle-new', {
+    url: '/circle-new',
+    templateUrl: "templates/circle-new.html",
+    controller: "CirclesCtrl"
   });
   return $urlRouterProvider.otherwise("/");
 });
 
-app.controller("RoomsCtrl", [
+app.controller("CirclesCtrl", [
   "$scope", "$http", function($scope, $http) {
     console.log("Hello");
-    $scope.getRooms = function() {
+    $scope.getCircles = function() {
       return $http.get("http://localhost:3000/rooms.json").success(function(data) {
-        $scope.room = data;
+        $scope.circles = data;
         return console.log(data);
       });
     };
-    return $scope.getRooms();
+    return $scope.getCircles();
   }
 ]);
 
 app.controller("UsersCtrl", [
-  "$scope", "$http", function($scope, $http) {
+  "$scope", "$http", '$stateParams', function($scope, $http, $stateParams) {
     $scope.users = [];
     $scope.newUser = {};
     $scope.getUsers = function() {
@@ -67,18 +83,20 @@ app.controller("UsersCtrl", [
       });
     };
     $scope.showUser = function() {
-      return $http.get("http://localhost:3000/users/1.json").success(function(data) {
+      return $http.get("http://localhost:3000/users/" + $stateParams.id + ".json").success(function(data) {
         return $scope.user = data;
       });
     };
     $scope.editUser = function(user) {
-      console.log(user);
-      return $http.put("http://localhost:3000/users/1.json", user).success(function(data) {
+      return $http.put("http://localhost:3000/users/" + user.id + ".json", user).success(function(data) {
         return console.log(data);
       });
     };
-    return $scope.showUser();
+    $scope.showUser();
+    return $scope.getUsers();
   }
 ]);
+
+
 
 

@@ -1,9 +1,9 @@
-app.controller "RoomsCtrl", ["$scope", "$http", ($scope, $http)->
+app.controller "CirclesCtrl", ["$scope", "$http", ($scope, $http)->
 	console.log("Hello")
-	$scope.getRooms = ->
+	$scope.getCircles = ->
 		$http.get("http://localhost:3000/rooms.json").success (data) ->
-			$scope.room = data
+			$scope.circles = data
 			console.log(data)
 
-	$scope.getRooms()
+	$scope.getCircles()
 ]

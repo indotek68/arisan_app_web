@@ -1,7 +1,10 @@
-app.controller "UsersCtrl", ["$scope", "$http", ($scope, $http)->
+app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', ($scope, $http, $stateParams)->
 	$scope.users = [];
 	$scope.newUser = {};
-	
+	# $scope.user = {};
+	# $scope.reputation = 0
+
+
 	$scope.getUsers = ->
 		$http.get("http://localhost:3000/users.json").success (data) ->
 			$scope.users = data
@@ -18,15 +21,17 @@ app.controller "UsersCtrl", ["$scope", "$http", ($scope, $http)->
   			console.log $scope.errors
 
 	$scope.showUser = ->
-  		$http.get("http://localhost:3000/users/1.json").success (data) ->
-  			# console.log (data)
-  			$scope.user = data
+		# console.log $stateParams
+		$http.get("http://localhost:3000/users/#{$stateParams.id}.json").success (data) ->
+			$scope.user = data
+			# console.log data
 
 	$scope.editUser = (user) ->
-		console.log (user)
-		$http.put("http://localhost:3000/users/1.json", user).success (data) ->
+		# console.log (user.id)
+		$http.put("http://localhost:3000/users/#{user.id}.json", user).success (data) ->
   			console.log(data)
   			
-
 	$scope.showUser()
+	$scope.getUsers()
+
 ]

@@ -19,15 +19,35 @@ app = angular.module("starter", ["ionic"]).run(($ionicPlatform) ->
   	templateUrl: "templates/signin.html",
   	controller: "UsersCtrl"
   })
-  .state("profile-page",{
-    url: "/users/:id",
-    templateUrl: "templates/profile-page.html",
+  .state("users-index",{
+    url: "/users",
+    templateUrl: "templates/users-index.html",
     controller: "UsersCtrl"
   })
-  .state("profile-edit",{
+  .state("user-page",{
+    url: "/users/:id",
+    templateUrl: "templates/user-page.html",
+    controller: "UsersCtrl"
+  })
+  .state("user-edit",{
   	url: "/users/:id/edit",
-  	templateUrl: "templates/profile-edit.html",
+  	templateUrl: "templates/user-edit.html",
   	controller: "UsersCtrl"
+  })
+  .state("circles-index", {
+    url: "/circles",
+    templateUrl: "templates/circles-index.html",
+    controller: "CirclesCtrl"
+  })
+  .state('circle-page', {
+    url: '/circle/:id',
+    templateUrl: "templates/circle-page.html",
+    controller: "CirclesCtrl"
+  })
+  .state('circle-new', {
+    url: '/circle-new',
+    templateUrl: "templates/circle-new.html",
+    controller: "CirclesCtrl"
   })
   # if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise "/"
