@@ -1,7 +1,7 @@
 app.controller "UsersCtrl", ["$scope", "$http", ($scope, $http)->
 	$scope.users = [];
 	$scope.newUser = {};
-
+	
 	$scope.getUsers = ->
 		$http.get("http://localhost:3000/users.json").success (data) ->
 			$scope.users = data
@@ -17,9 +17,16 @@ app.controller "UsersCtrl", ["$scope", "$http", ($scope, $http)->
   			$scope.errors = errs["errors"]
   			console.log $scope.errors
 
-	$scope.editUser = ->
-  		$http.put("http://localhost:3000/users/1.json").success (data) ->
-  			console.log(data)
+	$scope.showUser = ->
+  		$http.get("http://localhost:3000/users/1.json").success (data) ->
+  			# console.log (data)
+  			$scope.user = data
 
-	$scope.getUsers()
+	$scope.editUser = (user) ->
+		console.log (user)
+		$http.put("http://localhost:3000/users/1.json", user).success (data) ->
+  			console.log(data)
+  			
+
+	$scope.showUser()
 ]

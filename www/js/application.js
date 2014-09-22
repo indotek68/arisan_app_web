@@ -66,12 +66,18 @@ app.controller("UsersCtrl", [
         return console.log($scope.errors);
       });
     };
-    $scope.editUser = function() {
-      return $http.put("http://localhost:3000/users/1.json").success(function(data) {
+    $scope.showUser = function() {
+      return $http.get("http://localhost:3000/users/1.json").success(function(data) {
+        return $scope.user = data;
+      });
+    };
+    $scope.editUser = function(user) {
+      console.log(user);
+      return $http.put("http://localhost:3000/users/1.json", user).success(function(data) {
         return console.log(data);
       });
     };
-    return $scope.getUsers();
+    return $scope.showUser();
   }
 ]);
 

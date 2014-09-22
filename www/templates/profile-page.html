@@ -1,1 +1,37 @@
-profile.html
+<ion-view title="{{user.firstname}}'s Profile">
+	<ion-content class="">
+		<div class="list card">
+			<div class="item item-thumbnail-left">
+				<img src="{{user.image_url}}">
+				<h2>{{user.firstname}} {{user.lastname}}</h2>
+				<p>Birthdate: {{user.age}}</p>
+				<div class="">
+					<i class="icon ion-star"></i> 
+					{{user.reputation}}
+				</div>
+			</div>
+			<div class="item item-body">
+				<h3>Email:</h3>
+				<p>{{user.email}}</p>
+				<h3>Description:</h3>
+				<p>Description: {{user.description}}</p>
+			</div>
+			<div class="item tabs tabs-secondary tabs-icon-left">
+			    <button class="tab-item button button-clear button-calm">
+			      <i class="icon ion-thumbsup" ng-click="repUp()"></i> Rep Up
+			    </button>
+			    <button class="tab-item button button-clear button-assertive" ng-click="repDown()">
+			      <i class="icon ion-thumbsdown"></i> Rep Down
+			    </button>
+			    <!-- <button class="tab-item button button-clear button-dark">
+			      <i class="icon ion-chatbox"></i> Comment
+			    </button> -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<a href="/" class="button button-block button-large button-positive">Submit Profile</a>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

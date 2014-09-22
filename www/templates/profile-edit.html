@@ -1,42 +1,42 @@
 <ion-view title="User Profile">
 	<ion-content class="">
-				<form ng-submit="editUser()">
-					<div class="item item-divider">Profile Image</div>
+				<form ng-submit="editUser(user)">
 					<div class="list card">
 						<div class="item item-image">
-							<img src="cover.jpg">
+							<img src="{{user.image_url}}">
 						</div>
 					</div>
+					<div class="item item-divider">Profile Image</div>
 					<label for="image-url" class="item item-input">
 							<span class="input-label">Image Url</span>
-							<input type="text" value="{{currentUser.image_url}}" autofocus true>
+							<input type="text" value="{{user.image_url}}" ng-model="user.image_url">
 						</label>
 					<div class="list">
 					<div class="item item-divider">Basic Info</div>
 						<label for="firstname" class="item item-input">
 							<span class="input-label">First Name</span>
-							<input type="text" value="{{currentUser.firstname}}" autofocus true>
+							<input type="text" value="{{user.firstname}}" autofocus true ng-model="user.firstname">
 						</label>
 						<label for="lastname" class="item item-input">
 							<span class="input-label">Last Name</span>
-							<input type="text" value="{{currentUser.lastname}}">
+							<input type="text" value="{{user.lastname}}" ng-model="user.lastname">
 						</label>
 						<label for="email" class="item item-input">
 							<span class="input-label">Email</span>
-							<input type="email" value="{{currentUser.email}}">
+							<input type="email" value="{{user.email}}" ng-model="user.email">
 						</label>
 						<div class="item item-divider">Bio</div>
 						<label for="age" class="item item-input">
-							<span class="input-label">Age</span>
-							<input type="date" value="{{currentUser.age}}">
+							<span class="input-label">Birthday</span>
+							<input type="date" value="{{user.age}}" ng-model="user.age">
 						</label>
 						<label for="description" class="item item-input">
-							<textarea rows="10" placeholder="Write a short bio..."></textarea>
+							<textarea rows="5" ng-model="user.description" placeholder="Write a short bio...">{{user.description}}</textarea>
 						</label>
 					</div>
 					<div class="row">
 						<div class="col">
-							<button class="button button-large button-block button-positive">Submit</button>
+							<a href="#/users/1" class="button button-large button-block button-positive">Review Profile</a>
 						</div>
 					</div>
 				</form>
