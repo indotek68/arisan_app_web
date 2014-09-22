@@ -1,10 +1,10 @@
 <ion-view title="Create Circle">
 	<ion-content class="">
 				<form ng-submit="createCircle(circle)">
-						<label for="circle-name" class="item item-input">
-							<span class="input-label">Circle Name</span>
-							<input type="text" ng-model="circle.rm_name">
-						</label>
+					<label for="circle-name" class="item item-input">
+						<span class="input-label">Circle Name</span>
+						<input type="text" ng-model="circle.rm_name">
+					</label>
 					<div class="list">
 						<label for="max-people" class="item item-input item-select">
 							<div class="input-label">Max People</div>
@@ -37,11 +37,14 @@
 							<span class="input-label">Start Date</span>
 							<input type="date" ng-model="circle.startdate">
 						</label>
-					<div class="row">
-						<div class="col">
-							<button href="#/users/1" class="button button-large button-block button-positive">Create Circle</button>
+						<div ng-repeat="(key, errs) in errors">
+							 <p class="text-center text-error padding">{{key | uppercase}} {{errs}}</p>
+		    			</div>
+						<div class="row">
+							<div class="col">
+								<button href="#/users/1" class="button button-large button-block button-positive">Create Circle</button>
+							</div>
 						</div>
-					</div>
 				</form>
 	</ion-content>
 </ion-view>

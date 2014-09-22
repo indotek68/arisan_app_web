@@ -41,6 +41,5 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', ($scop
   			
 	$scope.showUser()
 	$scope.getUsers()
-	# $scope.makeNewUser()
 
 ]

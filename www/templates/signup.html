@@ -30,11 +30,8 @@
 		    				<input type="password" ng-model="newUser.password_confirmation" />
 	    				</label>
 	    				<div ng-repeat="(key, errs) in errors">
-							<div ng-repeat="error in errors">
-							{{key | uppercase}} 
-								<p class="text-center text-error">{{error}}</p>
-							</div>
-	    				</div>
+							 <p class="text-center text-error padding">{{key | uppercase}} {{errs}}</p>
+		    			</div>
 	    				<button href="#/users/1/edit" class="button button-large button-block button-positive" ng-click="$state.go('user-edit')">Next: Create Profile</button>
     				</div>
     			</form>
