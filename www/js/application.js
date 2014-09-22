@@ -53,30 +53,57 @@ app = angular.module("starter", ["ionic"]).run(function($ionicPlatform) {
 app.controller("CirclesCtrl", [
   "$scope", "$http", function($scope, $http) {
     console.log("Hello");
+    $scope.circles = [];
+    $scope.circle = {};
     $scope.getCircles = function() {
       return $http.get("http://localhost:3000/rooms.json").success(function(data) {
         $scope.circles = data;
         return console.log(data);
       });
     };
+    $scope.createCircle = function() {
+      var conf;
+      console.log({
+        room: $scope.circle
+      });
+      conf = confirm("Are you sure?");
+      if (conf) {
+        return $http.post("http://localhost:3000/rooms.json", {
+          room: $scope.circle
+        }).success(function(data) {
+          $scope.circles.push(data);
+          return console.log(data);
+        }).error(function(errs) {
+          $scope.errors = errs["errors"];
+          return console.log($scope.errors);
+        });
+      }
+    };
     return $scope.getCircles();
   }
 ]);
 
 app.controller("UsersCtrl", [
-  "$scope", "$http", '$stateParams', function($scope, $http, $stateParams) {
+  "$scope", "$http", '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
     $scope.users = [];
     $scope.newUser = {};
+    $scope.user = {};
     $scope.getUsers = function() {
       return $http.get("http://localhost:3000/users.json").success(function(data) {
         return $scope.users = data;
       });
     };
     $scope.createUser = function() {
-      return $http.post("http://localhost:3000/users.json", $scope.newUser).success(function(data) {
+      console.log({
+        user: $scope.newUser
+      });
+      return $http.post("http://localhost:3000/users.json", {
+        user: $scope.newUser
+      }).success(function(data) {
         console.log(data);
         $scope.users.push(data);
-        return $scope.newUser = {};
+        $scope.newUser = {};
+        return $state.go('signin');
       }).error(function(errs) {
         $scope.errors = errs["errors"];
         return console.log($scope.errors);

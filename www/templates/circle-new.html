@@ -3,7 +3,7 @@
 				<form ng-submit="createCircle(circle)">
 						<label for="circle-name" class="item item-input">
 							<span class="input-label">Circle Name</span>
-							<input type="text" value="{{circle.name}}" ng-model="cicle.name">
+							<input type="text" ng-model="circle.rm_name">
 						</label>
 					<div class="list">
 						<label for="max-people" class="item item-input item-select">
@@ -29,21 +29,17 @@
 									<option value="Monthly" selected>Monthly</option>
 								</select>
 						</label>
-						<label for="email" class="item item-input">
-							<span class="input-label">Email</span>
-							<input type="email" value="{{user.email}}" ng-model="user.email">
+						<label for="cashpot" class="item item-input">
+							<span class="input-label">Cashpot $</span>
+							<input type="text" placeholder="min: $100 max: $1,000" ng-model="circle.cash_pot">
 						</label>
-						<div class="item item-divider">Bio</div>
-						<label for="age" class="item item-input">
-							<span class="input-label">Birthday</span>
-							<input type="date" value="{{user.age}}" ng-model="user.age">
-						</label>
-						<label for="description" class="item item-input">
-							<textarea rows="5" ng-model="user.description" placeholder="Write a short bio...">{{user.description}}</textarea>
+						<label for="schedule" class="item item-input">
+							<span class="input-label">Start Date</span>
+							<input type="date" ng-model="circle.startdate">
 						</label>
 					<div class="row">
 						<div class="col">
-							<a href="#/users/1" class="button button-large button-block button-positive">Review Profile</a>
+							<button href="#/users/1" class="button button-large button-block button-positive">Create Circle</button>
 						</div>
 					</div>
 				</form>

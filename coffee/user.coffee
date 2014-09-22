@@ -1,7 +1,7 @@
-app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', ($scope, $http, $stateParams)->
+app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', ($scope, $http, $stateParams, $state)->
 	$scope.users = [];
 	$scope.newUser = {};
-	# $scope.user = {};
+	$scope.user = {};
 	# $scope.reputation = 0
 
 
@@ -10,12 +10,20 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', ($scope, $http, 
 			$scope.users = data
 			# console.log(data)
 
+	# $scope.makeNewUser = ->
+	# 	$http.get("http://localhost:3000/users/new.json").success (data) ->
+	# 		console.log data
+	# 		$scope.newUser = data
+		
 	$scope.createUser = ->
-		# console.log($http)
-		$http.post("http://localhost:3000/users.json", $scope.newUser).success((data) ->
+		console.log({user: $scope.newUser})
+		$http.post("http://localhost:3000/users.json", {user: $scope.newUser}).success((data) ->
 			console.log data
 			$scope.users.push data
 			$scope.newUser = {}
+			$state.go('signin')
+
+
 		).error (errs) ->
   			$scope.errors = errs["errors"]
   			console.log $scope.errors
@@ -33,5 +41,6 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', ($scope, $http, 
   			
 	$scope.showUser()
 	$scope.getUsers()
+	# $scope.makeNewUser()
 
 ]
