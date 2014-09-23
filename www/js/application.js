@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module("starter", ["ionic"]).run(function($ionicPlatform) {
+app = angular.module("starter", ["ionic", 'auth0']).run(function($ionicPlatform) {
   return $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -9,7 +9,7 @@ app = angular.module("starter", ["ionic"]).run(function($ionicPlatform) {
       return StatusBar.styleDefault();
     }
   });
-}).config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+}).config(function($stateProvider, $urlRouterProvider, $httpProvider, authProvider) {
   $stateProvider.state("main", {
     url: "/",
     templateUrl: "templates/main.html",
@@ -96,8 +96,15 @@ app.controller("CirclesCtrl", [
         return $scope.circle = data;
       });
     };
+    $scope.circleInfo = function() {
+      return $http.get("http://localhost:3000/rooms/" + $stateParams.id + "/users.json").success(function(data) {
+        $scope.circleInfo = data;
+        return console.log(data);
+      });
+    };
     $scope.getCircles();
-    return $scope.showCircle();
+    $scope.showCircle();
+    return $scope.circleInfo();
   }
 ]);
 

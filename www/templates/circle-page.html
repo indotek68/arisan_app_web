@@ -11,6 +11,15 @@
 		    Total Cash Pot: ${{circle.cash_pot * circle.num_people}} / {{circle.schedule}}
 		  </p>
 		  <div class="item item-divider">Host</div>
+		  
+		  <div class="item item-divider">Guest</div>
+		  <div ng-repeat="guest in circleInfo">
+			  <span class="item" href="#">
+			   {{guest.firstname}} {{guest.lastname}}
+
+			   <span>{{guest.reputation}}</span>
+			  </span>
+		  </div>
 		</div> 
 	</ion-content>
 </ion-view>

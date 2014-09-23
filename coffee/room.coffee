@@ -25,9 +25,16 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", ($scope, $http
 			$scope.circle = data
 			# console.log data
 
+	$scope.circleInfo = ->
+		# console.log $stateParams
+		$http.get("http://localhost:3000/rooms/#{$stateParams.id}/users.json").success (data) ->
+			$scope.circleInfo = data
+			console.log data
+
 
 	$scope.getCircles()
 	$scope.showCircle()
+	$scope.circleInfo()
 ]
 
 
