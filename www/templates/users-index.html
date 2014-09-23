@@ -3,9 +3,9 @@
 	 	<div class="list">
 			<label class="item item-input">
 				<i class="icon ion-search placeholder-icon"></i>
-			    <input type="text" placeholder="Search">
+			    <input type="text" placeholder="Search" ng-model="query">
 			</label>
-			<div ng-repeat="user in users">
+			<div ng-repeat="user in users | filter: query">
 		 		<a href="#/users/{{user.id}}" ng-click="showUser(user)"class="item item-avatar">
 			 		<img src="{{user.image_url}}" alt="">
 		 			<h3>{{user.firstname}} {{user.lastname}}</h3>

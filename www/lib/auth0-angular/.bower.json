@@ -1,0 +1,25 @@
+{
+  "name": "auth0-angular",
+  "main": "build/auth0-angular.js",
+  "dependencies": {
+    "angular": "*",
+    "angular-cookies": "*",
+    "auth0.js": "~4.2",
+    "auth0-widget.js": ">= 5.2.5"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.16",
+    "angular-route": "~1.2.16"
+  },
+  "homepage": "https://github.com/auth0/auth0-angular",
+  "version": "2.2.8",
+  "_release": "2.2.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.2.8",
+    "commit": "5538387f94d656d1a57fba9ec2ce8d57e9b217b8"
+  },
+  "_source": "git://github.com/auth0/auth0-angular.git",
+  "_target": "2.2.*",
+  "_originalSource": "auth0-angular"
+}

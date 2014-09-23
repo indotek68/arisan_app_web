@@ -4,7 +4,6 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', ($scop
 	$scope.user = {};
 	# $scope.reputation = 0
 
-
 	$scope.getUsers = ->
 		$http.get("http://localhost:3000/users.json").success (data) ->
 			$scope.users = data

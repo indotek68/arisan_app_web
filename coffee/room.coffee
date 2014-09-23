@@ -1,4 +1,4 @@
-app.controller "CirclesCtrl", ["$scope", "$http", ($scope, $http)->
+app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", ($scope, $http, $stateParams)->
 	console.log("Hello")
 	$scope.circles = []
 	$scope.circle = {}
@@ -19,6 +19,15 @@ app.controller "CirclesCtrl", ["$scope", "$http", ($scope, $http)->
 				$scope.errors = errs["errors"]
 				console.log $scope.errors
 
+	$scope.showCircle = ->
+		# console.log $stateParams
+		$http.get("http://localhost:3000/rooms/#{$stateParams.id}.json").success (data) ->
+			$scope.circle = data
+			# console.log data
+
 
 	$scope.getCircles()
+	$scope.showCircle()
 ]
+
+

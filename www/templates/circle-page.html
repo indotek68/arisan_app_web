@@ -1,12 +1,16 @@
-<ion-view hide-nav-bar>
+<ion-view title="{{circle.rm_name}}">
 	<ion-content class="">
 	 	<div class="list">
-		  <div class="item item-divider">
-		    Candy Bars
-		  </div>
-		  <a class="item" href="#">
-		    Butterfinger
-		  </a>
+		  <p class="item" href="#">
+		    Max People: {{circle.num_people}}
+		  </p>
+		  <p class="item" href="#">
+		    Cash Buy-in: ${{circle.cash_pot}} / {{circle.schedule}}
+		  </p>
+		  <p class="item" href="#">
+		    Total Cash Pot: ${{circle.cash_pot * circle.num_people}} / {{circle.schedule}}
+		  </p>
+		  <div class="item item-divider">Host</div>
 		</div> 
 	</ion-content>
 </ion-view>

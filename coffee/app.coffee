@@ -9,6 +9,16 @@ app = angular.module("starter", ["ionic"]).run(($ionicPlatform) ->
   	templateUrl: "templates/main.html",
   	controller: "UsersCtrl"
   })
+  $stateProvider.state( "dash", {
+    url: "/dash",
+    templateUrl: "templates/dash-index.html",
+    controller: "DashCtrl"
+  })
+  $stateProvider.state( "dash-host", {
+    url: "/dash/host",
+    templateUrl: "templates/dash-host.html",
+    controller: "DashCtrl"
+  })
   .state("signup",{
   	url: "/signup",
   	templateUrl: "templates/signup.html",

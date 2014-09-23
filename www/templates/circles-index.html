@@ -3,16 +3,16 @@
 	 	<div class="list">
 			  <label class="item item-input">
 				<i class="icon ion-search placeholder-icon"></i>
-			    <input type="text" placeholder="Search">
+			    <input type="text" placeholder="Search" ng-model="query">
 			  </label>
-			<div ng-repeat="circle in circles">
+			<div ng-repeat="circle in circles | filter: query">
 	 		<a href="#/circle/{{circle.id}}" class="item item-avatar">
 		 		<!-- <img src="{{user.image_url}}" alt=""> -->
 	 			<h3>{{circle.rm_name}}</h3>
 	 			<div class="">
-					<p>No. of People: #/{{circle.num_people}}</p>
+					<p>Num. of People: #/{{circle.num_people}}</p>
 					<p>Host: </p>
-					<p>Cash Pot: ${{circle.cash_pot}} / {{circle.schedule}}</p>
+					<p>Cash Buy-in: ${{circle.cash_pot}} / {{circle.schedule}}</p>
 				</div>
 	 		</a>
 	 		</div>

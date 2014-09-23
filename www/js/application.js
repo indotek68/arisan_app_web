@@ -14,6 +14,16 @@ app = angular.module("starter", ["ionic"]).run(function($ionicPlatform) {
     url: "/",
     templateUrl: "templates/main.html",
     controller: "UsersCtrl"
+  });
+  $stateProvider.state("dash", {
+    url: "/dash",
+    templateUrl: "templates/dash-index.html",
+    controller: "DashCtrl"
+  });
+  $stateProvider.state("dash-host", {
+    url: "/dash/host",
+    templateUrl: "templates/dash-host.html",
+    controller: "DashCtrl"
   }).state("signup", {
     url: "/signup",
     templateUrl: "templates/signup.html",
@@ -50,8 +60,10 @@ app = angular.module("starter", ["ionic"]).run(function($ionicPlatform) {
   return $urlRouterProvider.otherwise("/");
 });
 
+app.controller("DashCtrl", ["$scope", "$http", '$stateParams', '$state', function($scope, $http, $stateParams, $state) {}]);
+
 app.controller("CirclesCtrl", [
-  "$scope", "$http", function($scope, $http) {
+  "$scope", "$http", "$stateParams", function($scope, $http, $stateParams) {
     console.log("Hello");
     $scope.circles = [];
     $scope.circle = {};
@@ -79,7 +91,13 @@ app.controller("CirclesCtrl", [
         });
       }
     };
-    return $scope.getCircles();
+    $scope.showCircle = function() {
+      return $http.get("http://localhost:3000/rooms/" + $stateParams.id + ".json").success(function(data) {
+        return $scope.circle = data;
+      });
+    };
+    $scope.getCircles();
+    return $scope.showCircle();
   }
 ]);
 
