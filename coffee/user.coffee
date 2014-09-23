@@ -29,13 +29,13 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', ($scop
 
 	$scope.showUser = ->
 		# console.log $stateParams
-		$http.get("http://localhost:3000/users/#{$stateParams.id}.json").success (data) ->
+		$http.get("http://localhost:3000/users/#{$stateParams.user_id}.json").success (data) ->
 			$scope.user = data
 			# console.log data
 
 	$scope.editUser = (user) ->
 		# console.log (user.id)
-		$http.put("http://localhost:3000/users/#{user.id}.json", user).success (data) ->
+		$http.put("http://localhost:3000/users/#{user.user_id}.json", user).success (data) ->
   			console.log(data)
   			
 	$scope.showUser()

@@ -16,13 +16,8 @@ app = angular.module("starter", ["ionic", 'auth0']).run(function($ionicPlatform)
     controller: "UsersCtrl"
   });
   $stateProvider.state("dash", {
-    url: "/dash",
+    url: "/user/:user_id/dash",
     templateUrl: "templates/dash-index.html",
-    controller: "DashCtrl"
-  });
-  $stateProvider.state("dash-host", {
-    url: "/dash/host",
-    templateUrl: "templates/dash-host.html",
     controller: "DashCtrl"
   }).state("signup", {
     url: "/signup",
@@ -37,23 +32,23 @@ app = angular.module("starter", ["ionic", 'auth0']).run(function($ionicPlatform)
     templateUrl: "templates/users-index.html",
     controller: "UsersCtrl"
   }).state("user-page", {
-    url: "/users/:id",
+    url: "/user/:user_id",
     templateUrl: "templates/user-page.html",
     controller: "UsersCtrl"
   }).state("user-edit", {
-    url: "/users/:id/edit",
+    url: "/user/:user_id/edit",
     templateUrl: "templates/user-edit.html",
     controller: "UsersCtrl"
   }).state("circles-index", {
-    url: "/circles",
+    url: "/user/:user_id/circles",
     templateUrl: "templates/circles-index.html",
     controller: "CirclesCtrl"
   }).state('circle-page', {
-    url: '/circle/:id',
+    url: '/user/:user_id/circle/:circle_id',
     templateUrl: "templates/circle-page.html",
     controller: "CirclesCtrl"
   }).state('circle-new', {
-    url: '/circle-new',
+    url: '/user/:user_id/circle-new',
     templateUrl: "templates/circle-new.html",
     controller: "CirclesCtrl"
   });
@@ -92,12 +87,12 @@ app.controller("CirclesCtrl", [
       }
     };
     $scope.showCircle = function() {
-      return $http.get("http://localhost:3000/rooms/" + $stateParams.id + ".json").success(function(data) {
+      return $http.get("http://localhost:3000/rooms/" + $stateParams.circle_id + ".json").success(function(data) {
         return $scope.circle = data;
       });
     };
     $scope.circleInfo = function() {
-      return $http.get("http://localhost:3000/rooms/" + $stateParams.id + "/users.json").success(function(data) {
+      return $http.get("http://localhost:3000/rooms/" + $stateParams.circle_id + "/users.json").success(function(data) {
         $scope.circleInfo = data;
         return console.log(data);
       });
@@ -135,12 +130,12 @@ app.controller("UsersCtrl", [
       });
     };
     $scope.showUser = function() {
-      return $http.get("http://localhost:3000/users/" + $stateParams.id + ".json").success(function(data) {
+      return $http.get("http://localhost:3000/users/" + $stateParams.user_id + ".json").success(function(data) {
         return $scope.user = data;
       });
     };
     $scope.editUser = function(user) {
-      return $http.put("http://localhost:3000/users/" + user.id + ".json", user).success(function(data) {
+      return $http.put("http://localhost:3000/users/" + user.user_id + ".json", user).success(function(data) {
         return console.log(data);
       });
     };

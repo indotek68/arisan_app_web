@@ -1,5 +1,5 @@
 <ion-view title="User Profile">
-	<ion-content class="">
+	<ion-content class="light-grey">
 				<form ng-submit="editUser(user)">
 					<div class="list card">
 						<div class="item item-image">
@@ -36,7 +36,7 @@
 					</div>
 					<div class="row">
 						<div class="col">
-							<a href="#/users/1" class="button button-large button-block button-positive">Review Profile</a>
+							<a href="#/user/{{user.id}}" class="button button-large button-block button-positive">Review Profile</a>
 						</div>
 					</div>
 				</form>

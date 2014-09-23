@@ -1,5 +1,5 @@
 <ion-view title="{{circle.rm_name}}">
-	<ion-content class="">
+	<ion-content class="light-grey">
 	 	<div class="list">
 		  <p class="item" href="#">
 		    Max People: {{circle.num_people}}
@@ -14,11 +14,16 @@
 		  
 		  <div class="item item-divider">Guest</div>
 		  <div ng-repeat="guest in circleInfo">
-			  <span class="item" href="#">
+			  <a class="item" href="#/user/{{guest.id}}">
 			   {{guest.firstname}} {{guest.lastname}}
 
-			   <span>{{guest.reputation}}</span>
-			  </span>
+			   <div class="padding-top"><i class="icon ion-star pull-right">{{guest.reputation}}</i></div>
+			  </a>
+		  </div>
+		  <div class="row">
+		  	<div class="col">
+			  <button class="button button-large button-block button-assertive" ng-click="$state.go('main')">Join Room</button>
+			</div>
 		  </div>
 		</div> 
 	</ion-content>

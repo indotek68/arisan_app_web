@@ -18,19 +18,56 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
+h1.logo{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 4em;
+	font-style: italic;
+	font-weight: 800;
+}
+
+h1 span{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.10em;
+	font-style: italic;
+	font-weight: 800;
+}
+
+h4.logo{
+	margin-top: -.75em;
+	font-family: 'Open Sans', sans-serif;
+	font-style: italic;
+	font-weight: 800;
+	color: #4e0b07;
+}
+
+.white-text{
+	color: white;
+}
+
 .footer {
 	position: absolute;
 	bottom: .1em;
 }
 
 .pink-bg {
-	background-color: #ff5a5f;
+	background-color: #ff5f69;
+}
+
+.green-bg {
+	background-color: #00d0c1;
+}
+
+.blue-bg {
+	background-color: #00d0c1;
 }
 
 .grey-bg {
 	background-color: #61665f;
 }
 
+.light-grey {
+	background-color: #e0e3e0;
+}
 .vert-align {
 	position: relative;
 	top: 11em;
