@@ -1,4 +1,4 @@
-app = angular.module("starter", ["ionic", 'auth0']).run(($ionicPlatform) ->
+app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFactories']).run(($ionicPlatform) ->
   $ionicPlatform.ready ->
     cordova.plugins.Keyboard.hideKeyboardAccessoryBar true  if window.cordova and window.cordova.plugins.Keyboard
     StatusBar.styleDefault()  if window.StatusBar
@@ -9,8 +9,9 @@ app = angular.module("starter", ["ionic", 'auth0']).run(($ionicPlatform) ->
   	templateUrl: "templates/main.html",
   	controller: "UsersCtrl"
   })
-  $stateProvider.state( "dash", {
+  .state( "dash", {
     url: "/user/:user_id/dash",
+    name: 'dash',
     templateUrl: "templates/dash-index.html",
     controller: "DashCtrl"
   })
@@ -25,7 +26,7 @@ app = angular.module("starter", ["ionic", 'auth0']).run(($ionicPlatform) ->
   	controller: "UsersCtrl"
   })
   .state("users-index",{
-    url: "/users",
+    url: "/user-index",
     templateUrl: "templates/users-index.html",
     controller: "UsersCtrl"
   })

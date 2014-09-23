@@ -1,42 +1,33 @@
-app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', ($scope, $http, $stateParams, $state)->
+app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', '$location', 'User', ($scope, $http, $stateParams, $state, $location, User)->
 	$scope.users = [];
 	$scope.newUser = {};
 	$scope.user = {};
 	# $scope.reputation = 0
 
 	$scope.getUsers = ->
-		$http.get("http://localhost:3000/users.json").success (data) ->
+		User.all().success (data) ->
 			$scope.users = data
-			# console.log(data)
-
-	# $scope.makeNewUser = ->
-	# 	$http.get("http://localhost:3000/users/new.json").success (data) ->
-	# 		console.log data
-	# 		$scope.newUser = data
 		
 	$scope.createUser = ->
-		console.log({user: $scope.newUser})
-		$http.post("http://localhost:3000/users.json", {user: $scope.newUser}).success((data) ->
+		# console.log({user: $scope.newUser})
+		User.post($scope.newUser).success((data) ->
 			console.log data
 			$scope.users.push data
 			$scope.newUser = {}
 			$state.go('signin')
-
-
 		).error (errs) ->
   			$scope.errors = errs["errors"]
   			console.log $scope.errors
 
 	$scope.showUser = ->
 		# console.log $stateParams
-		$http.get("http://localhost:3000/users/#{$stateParams.user_id}.json").success (data) ->
+		User.show($stateParams.user_id).success (data) ->
 			$scope.user = data
-			# console.log data
 
 	$scope.editUser = (user) ->
-		# console.log (user.id)
-		$http.put("http://localhost:3000/users/#{user.user_id}.json", user).success (data) ->
+		User.edit(user).success (data) ->
   			console.log(data)
+  			$state.go('user-page', {user_id: user.id});
   			
 	$scope.showUser()
 	$scope.getUsers()

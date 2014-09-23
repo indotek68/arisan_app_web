@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module("starter", ["ionic", 'auth0']).run(function($ionicPlatform) {
+app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFactories']).run(function($ionicPlatform) {
   return $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -14,9 +14,9 @@ app = angular.module("starter", ["ionic", 'auth0']).run(function($ionicPlatform)
     url: "/",
     templateUrl: "templates/main.html",
     controller: "UsersCtrl"
-  });
-  $stateProvider.state("dash", {
+  }).state("dash", {
     url: "/user/:user_id/dash",
+    name: 'dash',
     templateUrl: "templates/dash-index.html",
     controller: "DashCtrl"
   }).state("signup", {
@@ -28,7 +28,7 @@ app = angular.module("starter", ["ionic", 'auth0']).run(function($ionicPlatform)
     templateUrl: "templates/signin.html",
     controller: "UsersCtrl"
   }).state("users-index", {
-    url: "/users",
+    url: "/user-index",
     templateUrl: "templates/users-index.html",
     controller: "UsersCtrl"
   }).state("user-page", {
@@ -55,31 +55,30 @@ app = angular.module("starter", ["ionic", 'auth0']).run(function($ionicPlatform)
   return $urlRouterProvider.otherwise("/");
 });
 
-app.controller("DashCtrl", ["$scope", "$http", '$stateParams', '$state', function($scope, $http, $stateParams, $state) {}]);
-
 app.controller("CirclesCtrl", [
-  "$scope", "$http", "$stateParams", function($scope, $http, $stateParams) {
+  "$scope", "$http", "$stateParams", '$state', 'Circle', function($scope, $http, $stateParams, $state, Circle) {
     console.log("Hello");
     $scope.circles = [];
     $scope.circle = {};
     $scope.getCircles = function() {
-      return $http.get("http://localhost:3000/rooms.json").success(function(data) {
+      return Circle.all().success(function(data) {
         $scope.circles = data;
         return console.log(data);
       });
     };
     $scope.createCircle = function() {
       var conf;
+      console.log("hello");
       console.log({
         room: $scope.circle
       });
       conf = confirm("Are you sure?");
       if (conf) {
-        return $http.post("http://localhost:3000/rooms.json", {
+        return $http.post("http://localhost:3000/user/" + $stateParams.user_id + "/rooms.json", {
           room: $scope.circle
         }).success(function(data) {
           $scope.circles.push(data);
-          return console.log(data);
+          return console.log("Data ", data);
         }).error(function(errs) {
           $scope.errors = errs["errors"];
           return console.log($scope.errors);
@@ -87,7 +86,7 @@ app.controller("CirclesCtrl", [
       }
     };
     $scope.showCircle = function() {
-      return $http.get("http://localhost:3000/rooms/" + $stateParams.circle_id + ".json").success(function(data) {
+      return Circle.show($stateParams.circle_id).success(function(data) {
         return $scope.circle = data;
       });
     };
@@ -103,23 +102,20 @@ app.controller("CirclesCtrl", [
   }
 ]);
 
+app.controller("DashCtrl", ["$scope", "$http", '$stateParams', '$state', function($scope, $http, $stateParams, $state) {}]);
+
 app.controller("UsersCtrl", [
-  "$scope", "$http", '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+  "$scope", "$http", '$stateParams', '$state', '$location', 'User', function($scope, $http, $stateParams, $state, $location, User) {
     $scope.users = [];
     $scope.newUser = {};
     $scope.user = {};
     $scope.getUsers = function() {
-      return $http.get("http://localhost:3000/users.json").success(function(data) {
+      return User.all().success(function(data) {
         return $scope.users = data;
       });
     };
     $scope.createUser = function() {
-      console.log({
-        user: $scope.newUser
-      });
-      return $http.post("http://localhost:3000/users.json", {
-        user: $scope.newUser
-      }).success(function(data) {
+      return User.post($scope.newUser).success(function(data) {
         console.log(data);
         $scope.users.push(data);
         $scope.newUser = {};
@@ -130,13 +126,16 @@ app.controller("UsersCtrl", [
       });
     };
     $scope.showUser = function() {
-      return $http.get("http://localhost:3000/users/" + $stateParams.user_id + ".json").success(function(data) {
+      return User.show($stateParams.user_id).success(function(data) {
         return $scope.user = data;
       });
     };
     $scope.editUser = function(user) {
-      return $http.put("http://localhost:3000/users/" + user.user_id + ".json", user).success(function(data) {
-        return console.log(data);
+      return User.edit(user).success(function(data) {
+        console.log(data);
+        return $state.go('user-page', {
+          user_id: user.id
+        });
       });
     };
     $scope.showUser();
@@ -144,6 +143,57 @@ app.controller("UsersCtrl", [
   }
 ]);
 
+var CircleFactories;
 
+CircleFactories = angular.module("CircleFactories", []);
 
+CircleFactories.factory('Circle', [
+  '$http', function($http) {
+    return {
+      all: function() {
+        return $http.get("http://localhost:3000/rooms.json").success(function(data) {
+          return console.log(data);
+        });
+      },
+      post: function(newCircle) {
+        return $http.post("http://localhost:3000/rooms.json", {
+          room: newCircle
+        });
+      },
+      show: function(id) {
+        return $http.get("http://localhost:3000/rooms/" + id + ".json");
+      },
+      info: function(id) {
+        $http.get("http://localhost:3000/rooms/" + id + "/users.json");
+        return console.log(data);
+      }
+    };
+  }
+]);
 
+var UserFactories;
+
+UserFactories = angular.module("UserFactories", []);
+
+UserFactories.factory('User', [
+  '$http', function($http) {
+    return {
+      all: function() {
+        return $http.get("http://localhost:3000/users.json").success(function(data) {
+          return console.log(data);
+        });
+      },
+      post: function(newUser) {
+        return $http.post("http://localhost:3000/users.json", {
+          user: newUser
+        });
+      },
+      show: function(id) {
+        return $http.get("http://localhost:3000/users/" + id + ".json");
+      },
+      edit: function(user) {
+        return $http.put("http://localhost:3000/users/" + user.id + ".json", user);
+      }
+    };
+  }
+]);
