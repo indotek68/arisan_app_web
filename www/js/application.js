@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFactories']).run(function($ionicPlatform) {
+app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFactories', "TabFactories"]).run(function($ionicPlatform) {
   return $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -19,6 +19,11 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
     name: 'dash',
     templateUrl: "templates/dash-index.html",
     controller: "DashCtrl"
+  }).state("dash-home", {
+    url: "/user/:user_id/home",
+    name: 'dash-home',
+    templateUrl: "templates/dash-home.html",
+    controller: "DashCtrl"
   }).state("signup", {
     url: "/signup",
     templateUrl: "templates/signup.html",
@@ -26,8 +31,8 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
   }).state("signin", {
     url: "/signin",
     templateUrl: "templates/signin.html",
-    controller: "UsersCtrl"
-  }).state("users-index", {
+    controller: "SessionsCtrl"
+  }).state("user-index", {
     url: "/user-index",
     templateUrl: "templates/users-index.html",
     controller: "UsersCtrl"
@@ -40,11 +45,11 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
     templateUrl: "templates/user-edit.html",
     controller: "UsersCtrl"
   }).state("circles-index", {
-    url: "/user/:user_id/circles",
+    url: "/circles",
     templateUrl: "templates/circles-index.html",
     controller: "CirclesCtrl"
   }).state('circle-page', {
-    url: '/user/:user_id/circle/:circle_id',
+    url: '/circle/:circle_id/user/:user_id',
     templateUrl: "templates/circle-page.html",
     controller: "CirclesCtrl"
   }).state('circle-new', {
@@ -78,7 +83,11 @@ app.controller("CirclesCtrl", [
           room: $scope.circle
         }).success(function(data) {
           $scope.circles.push(data);
-          return console.log("Data ", data);
+          console.log("Data ", data);
+          return $state.go('circle-page', {
+            user_id: $stateParams.user_id,
+            circle_id: data.id
+          });
         }).error(function(errs) {
           $scope.errors = errs["errors"];
           return console.log($scope.errors);
@@ -91,10 +100,14 @@ app.controller("CirclesCtrl", [
       });
     };
     $scope.circleInfo = function() {
-      return $http.get("http://localhost:3000/rooms/" + $stateParams.circle_id + "/users.json").success(function(data) {
+      return Circle.info($stateParams.circle_id).success(function(data) {
         $scope.circleInfo = data;
         return console.log(data);
       });
+    };
+    $scope.userGo = function() {
+      console.log("Hello");
+      return $state.go('user-index');
     };
     $scope.getCircles();
     $scope.showCircle();
@@ -102,7 +115,52 @@ app.controller("CirclesCtrl", [
   }
 ]);
 
-app.controller("DashCtrl", ["$scope", "$http", '$stateParams', '$state', function($scope, $http, $stateParams, $state) {}]);
+app.controller("DashCtrl", [
+  "$scope", "$http", '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+    $scope.userGo = function() {
+      console.log("Hello");
+      return $state.go('circle-new');
+    };
+    return $scope.circleGo = function() {
+      console.log("Hello");
+      return $state.go('circles-index');
+    };
+  }
+]);
+
+app.controller("MainCtrl", [
+  "$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
+    if (!$scope.current_user) {
+      console.log("Checking for current user");
+      return $http.get("http://localhost:3000/logged_in_user.json").success((function(_this) {
+        return function(user) {
+          console.log("Welcome, ", user);
+          return $rootScope.current_user = user;
+        };
+      })(this));
+    }
+  }
+]);
+
+app.controller("SessionsCtrl", [
+  "$scope", "$http", "$rootScope", "$location", '$state', function($scope, $http, $rootScope, $location, $state) {
+    return $scope.addSession = function(loginUser) {
+      console.log(loginUser);
+      return $http.post("http://localhost:3000/login.json", {
+        user: loginUser
+      }).success((function(_this) {
+        return function(user) {
+          $rootScope.current_user = user;
+          return $state.go('circles-index');
+        };
+      })(this)).error((function(_this) {
+        return function() {
+          return alert("OOPS!");
+        };
+      })(this));
+    };
+  }
+]);
 
 app.controller("UsersCtrl", [
   "$scope", "$http", '$stateParams', '$state', '$location', 'User', function($scope, $http, $stateParams, $state, $location, User) {
@@ -118,8 +176,7 @@ app.controller("UsersCtrl", [
       return User.post($scope.newUser).success(function(data) {
         console.log(data);
         $scope.users.push(data);
-        $scope.newUser = {};
-        return $state.go('signin');
+        return $scope.newUser = {};
       }).error(function(errs) {
         $scope.errors = errs["errors"];
         return console.log($scope.errors);
@@ -131,12 +188,16 @@ app.controller("UsersCtrl", [
       });
     };
     $scope.editUser = function(user) {
-      return User.edit(user).success(function(data) {
+      User.edit(user).success(function(data) {
         console.log(data);
         return $state.go('user-page', {
           user_id: user.id
         });
       });
+      return $scope.userGo = function() {
+        console.log("Hello");
+        return $state.go('user-index');
+      };
     };
     $scope.showUser();
     return $scope.getUsers();
@@ -164,12 +225,50 @@ CircleFactories.factory('Circle', [
         return $http.get("http://localhost:3000/rooms/" + id + ".json");
       },
       info: function(id) {
-        $http.get("http://localhost:3000/rooms/" + id + "/users.json");
-        return console.log(data);
+        return $http.get("http://localhost:3000/rooms/" + id + "/users.json");
       }
     };
   }
 ]);
+
+var SessionController, SessionsCtrl;
+
+SessionController = angular.module("SessionController", []);
+
+SessionsCtrl = (function() {
+  function SessionsCtrl(scope, http, resource, rootScope, location, $state) {
+    this.scope = scope;
+    this.http = http;
+    this.resource = resource;
+    this.rootScope = rootScope;
+    this.location = location;
+  }
+
+  SessionsCtrl.prototype.addSession = function(loginUser) {
+    console.log(loginUser);
+    return this.http.post("/login.json", {
+      user: loginUser
+    }).success((function(_this) {
+      return function(user) {
+        _this.rootScope.current_user = user;
+        return $state.go('circles-index');
+      };
+    })(this)).error((function(_this) {
+      return function() {
+        return alert("OOPS!");
+      };
+    })(this));
+  };
+
+  return SessionsCtrl;
+
+})();
+
+SessionController.controller("SessionsCtrl", ["$scope", "$http", "$resource", "$rootScope", "$location", '$state', SessionsCtrl]);
+
+var TabFactories;
+
+TabFactories = angular.module("TabFactories", []);
 
 var UserFactories;
 

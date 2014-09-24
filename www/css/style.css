@@ -145,20 +145,6 @@ ul.authorConnectIcons li {
 	background-size: 120px 7348px;
 }
 
-/*
-.authorIconFacebook {
-	background: url(/build/resources/images/master-sprite-8aa32b3017fdffe090fd2de19c6e65a2.png) no-repeat 0 -6732px;
-}
-
-.authorIconTwitter {
-	background: url(/build/resources/images/master-sprite-8aa32b3017fdffe090fd2de19c6e65a2.png) no-repeat 0 -6820px;
-}
-
-.authorIconWebsite {
-	background: url(/build/resources/images/master-sprite-8aa32b3017fdffe090fd2de19c6e65a2.png) no-repeat 0 -7172px;
-}
-*/
-
 .authorLargeIconRow {
 	position: relative;
 	margin-top: 3px;

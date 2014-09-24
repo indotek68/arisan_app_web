@@ -18,9 +18,10 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', 'Cir
 		conf = confirm "Are you sure?"
 		if conf
 			$http.post("http://localhost:3000/user/#{$stateParams.user_id}/rooms.json", {room: $scope.circle}).success((data) ->
+			# $http.post("http://localhost:3000/rooms.json", {room: $scope.circle}).success((data) ->
 				$scope.circles.push data
 				console.log "Data ", data
-				# $state.go('circle-page', {user_id:$stateParams.user_id, circle_id: data.id})
+				$state.go('circle-page', {user_id:$stateParams.user_id, circle_id: data.id})
 			).error (errs) ->
 				$scope.errors = errs["errors"]
 				console.log $scope.errors
@@ -32,10 +33,14 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', 'Cir
 			# console.log data
 
 	$scope.circleInfo = ->
-		# console.log $stateParams
-		$http.get("http://localhost:3000/rooms/#{$stateParams.circle_id}/users.json").success (data) ->
+		# console.log $stateParams#{$stateParams.circle_id}
+		Circle.info($stateParams.circle_id).success (data) ->
 			$scope.circleInfo = data
 			console.log data
+
+	$scope.userGo = ->
+  		console.log "Hello"
+  		$state.go('user-index')
 
 	$scope.getCircles()
 	$scope.showCircle()

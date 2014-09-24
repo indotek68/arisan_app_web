@@ -14,6 +14,5 @@ CircleFactories.factory('Circle', ['$http', ($http)->
 
 		info: (id)->
 			$http.get("http://localhost:3000/rooms/#{id}/users.json")
-			console.log data
 	}
 ])

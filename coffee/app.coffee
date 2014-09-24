@@ -1,4 +1,4 @@
-app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFactories']).run(($ionicPlatform) ->
+app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFactories', "TabFactories"]).run(($ionicPlatform) ->
   $ionicPlatform.ready ->
     cordova.plugins.Keyboard.hideKeyboardAccessoryBar true  if window.cordova and window.cordova.plugins.Keyboard
     StatusBar.styleDefault()  if window.StatusBar
@@ -15,6 +15,12 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
     templateUrl: "templates/dash-index.html",
     controller: "DashCtrl"
   })
+  .state( "dash-home", {
+    url: "/user/:user_id/home",
+    name: 'dash-home',
+    templateUrl: "templates/dash-home.html",
+    controller: "DashCtrl"
+  })
   .state("signup",{
   	url: "/signup",
   	templateUrl: "templates/signup.html",
@@ -23,9 +29,9 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
   .state("signin",{
   	url: "/signin",
   	templateUrl: "templates/signin.html",
-  	controller: "UsersCtrl"
+  	controller: "SessionsCtrl"
   })
-  .state("users-index",{
+  .state("user-index",{
     url: "/user-index",
     templateUrl: "templates/users-index.html",
     controller: "UsersCtrl"
@@ -41,12 +47,12 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
   	controller: "UsersCtrl"
   })
   .state("circles-index", {
-    url: "/user/:user_id/circles",
+    url: "/circles",
     templateUrl: "templates/circles-index.html",
     controller: "CirclesCtrl"
   })
   .state('circle-page', {
-    url: '/user/:user_id/circle/:circle_id',
+    url: '/circle/:circle_id/user/:user_id',
     templateUrl: "templates/circle-page.html",
     controller: "CirclesCtrl"
   })

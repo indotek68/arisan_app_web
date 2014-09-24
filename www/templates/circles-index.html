@@ -1,12 +1,12 @@
 <ion-view title="Circles"class="">
-	<ion-content class="grey-bg">
+	<ion-content class="grey-bg tab-bottom">
 	 	<div class="list">
 			  <label class="item item-input">
 				<i class="icon ion-search placeholder-icon"></i>
 			    <input type="text" placeholder="Search" ng-model="query">
 			  </label>
 			<div ng-repeat="circle in circles | filter: query">
-	 		<a href="#user/:id/circle/{{circle.id}}" class="item item-avatar">
+	 		<a href="#/circle/{{circle.id}}/user/:id" class="item item-avatar">
 		 		<!-- <img src="{{user.image_url}}" alt=""> -->
 	 			<h3>{{circle.rm_name}}</h3>
 	 			<div class="">
@@ -18,4 +18,5 @@
 	 		</div>
 	 	</div>
 	</ion-content>
+	<div ng-include src="'templates/user-tabs.html'"></div>
 </ion-view>

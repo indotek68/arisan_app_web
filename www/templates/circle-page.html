@@ -1,24 +1,27 @@
 <ion-view title="{{circle.rm_name}}">
 	<ion-content class="light-grey">
 	 	<div class="list">
-		  <p class="item" href="#">
+		  <p class="item">
 		    Max People: {{circle.num_people}}
 		  </p>
-		  <p class="item" href="#">
+		  <p class="item">
 		    Cash Buy-in: ${{circle.cash_pot}} / {{circle.schedule}}
 		  </p>
-		  <p class="item" href="#">
+		  <p class="item">
 		    Total Cash Pot: ${{circle.cash_pot * circle.num_people}} / {{circle.schedule}}
 		  </p>
 		  <div class="item item-divider">Host</div>
 		  
 		  <div class="item item-divider">Guest</div>
 		  <div ng-repeat="guest in circleInfo">
-			  <a class="item" href="#/user/{{guest.id}}">
-			   {{guest.firstname}} {{guest.lastname}}
-
-			   <div class="padding-top"><i class="icon ion-star pull-right">{{guest.reputation}}</i></div>
-			  </a>
+			  <a href="#/user/{{guest.id}}" ng-click="showUser(user)"class="item item-avatar">
+			 		<img src="{{guest.image_url}}" alt="">
+		 			<h3>{{guest.firstname}} {{guest.lastname}}</h3>
+		 			<div class="">
+						<i class="icon ion-star"></i> 
+						{{guest.reputation}}
+					</div>
+		 		</a>
 		  </div>
 		  <div class="row">
 		  	<div class="col">

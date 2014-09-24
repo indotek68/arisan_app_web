@@ -14,7 +14,7 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', '$loca
 			console.log data
 			$scope.users.push data
 			$scope.newUser = {}
-			$state.go('signin')
+			# $state.go('signin')
 		).error (errs) ->
   			$scope.errors = errs["errors"]
   			console.log $scope.errors
@@ -28,6 +28,10 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', '$loca
 		User.edit(user).success (data) ->
   			console.log(data)
   			$state.go('user-page', {user_id: user.id});
+
+  	$scope.userGo = ->
+  		console.log "Hello"
+  		$state.go('user-index')
   			
 	$scope.showUser()
 	$scope.getUsers()
