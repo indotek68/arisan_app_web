@@ -20,7 +20,7 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
     templateUrl: "templates/dash-index.html",
     controller: "DashCtrl"
   }).state("dash-home", {
-    url: "/user/:user_id/home",
+    url: "/user/home",
     name: 'dash-home',
     templateUrl: "templates/dash-home.html",
     controller: "DashCtrl"
@@ -53,7 +53,7 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
     templateUrl: "templates/circle-page.html",
     controller: "CirclesCtrl"
   }).state('circle-new', {
-    url: '/user/:user_id/circle-new',
+    url: '/circle-new',
     templateUrl: "templates/circle-new.html",
     controller: "CirclesCtrl"
   });
@@ -61,7 +61,7 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
 });
 
 app.controller("CirclesCtrl", [
-  "$scope", "$http", "$stateParams", '$state', 'Circle', function($scope, $http, $stateParams, $state, Circle) {
+  "$scope", "$http", "$stateParams", '$state', '$rootScope', 'Circle', function($scope, $http, $stateParams, $state, $rootScope, Circle) {
     console.log("Hello");
     $scope.circles = [];
     $scope.circle = {};
@@ -79,7 +79,7 @@ app.controller("CirclesCtrl", [
       });
       conf = confirm("Are you sure?");
       if (conf) {
-        return $http.post("http://localhost:3000/user/" + $stateParams.user_id + "/rooms.json", {
+        return $http.post("http://localhost:3000/user/" + $rootScope.current_user.id + "/rooms.json", {
           room: $scope.circle
         }).success(function(data) {
           $scope.circles.push(data);
@@ -116,15 +116,23 @@ app.controller("CirclesCtrl", [
 ]);
 
 app.controller("DashCtrl", [
-  "$scope", "$http", '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+  "$scope", "$http", '$stateParams', '$state', '$rootScope', function($scope, $http, $stateParams, $state, $rootScope) {
+    $scope.current_user = $rootScope.current_user;
+    $scope.getCurrentRooms = function() {
+      return $http.get("http://localhost:3000/user/" + $scope.current_user.id + "/dash.json").success(function(data) {
+        console.log("UserRoom", data);
+        return $scope.current_room = data;
+      });
+    };
     $scope.userGo = function() {
       console.log("Hello");
       return $state.go('circle-new');
     };
-    return $scope.circleGo = function() {
+    $scope.circleGo = function() {
       console.log("Hello");
       return $state.go('circles-index');
     };
+    return $scope.getCurrentRooms();
   }
 ]);
 
@@ -145,17 +153,16 @@ app.controller("MainCtrl", [
 app.controller("SessionsCtrl", [
   "$scope", "$http", "$rootScope", "$location", '$state', function($scope, $http, $rootScope, $location, $state) {
     return $scope.addSession = function(loginUser) {
-      console.log(loginUser);
       return $http.post("http://localhost:3000/login.json", {
         user: loginUser
       }).success((function(_this) {
         return function(user) {
           $rootScope.current_user = user;
-          return $state.go('circles-index');
+          return $state.go('dash-home');
         };
       })(this)).error((function(_this) {
-        return function() {
-          return alert("OOPS!");
+        return function(errors) {
+          return alert("Invalid email or password");
         };
       })(this));
     };
@@ -163,7 +170,7 @@ app.controller("SessionsCtrl", [
 ]);
 
 app.controller("UsersCtrl", [
-  "$scope", "$http", '$stateParams', '$state', '$location', 'User', function($scope, $http, $stateParams, $state, $location, User) {
+  "$scope", "$http", '$stateParams', '$state', '$location', '$rootScope', 'User', function($scope, $http, $stateParams, $state, $location, $rootScope, User) {
     $scope.users = [];
     $scope.newUser = {};
     $scope.user = {};
@@ -176,7 +183,10 @@ app.controller("UsersCtrl", [
       return User.post($scope.newUser).success(function(data) {
         console.log(data);
         $scope.users.push(data);
-        return $scope.newUser = {};
+        $scope.newUser = {};
+        return $http.post("http://localhost:3000/login.json", {
+          user: loginUser
+        });
       }).error(function(errs) {
         $scope.errors = errs["errors"];
         return console.log($scope.errors);
@@ -216,11 +226,6 @@ CircleFactories.factory('Circle', [
           return console.log(data);
         });
       },
-      post: function(newCircle) {
-        return $http.post("http://localhost:3000/rooms.json", {
-          room: newCircle
-        });
-      },
       show: function(id) {
         return $http.get("http://localhost:3000/rooms/" + id + ".json");
       },
@@ -230,41 +235,6 @@ CircleFactories.factory('Circle', [
     };
   }
 ]);
-
-var SessionController, SessionsCtrl;
-
-SessionController = angular.module("SessionController", []);
-
-SessionsCtrl = (function() {
-  function SessionsCtrl(scope, http, resource, rootScope, location, $state) {
-    this.scope = scope;
-    this.http = http;
-    this.resource = resource;
-    this.rootScope = rootScope;
-    this.location = location;
-  }
-
-  SessionsCtrl.prototype.addSession = function(loginUser) {
-    console.log(loginUser);
-    return this.http.post("/login.json", {
-      user: loginUser
-    }).success((function(_this) {
-      return function(user) {
-        _this.rootScope.current_user = user;
-        return $state.go('circles-index');
-      };
-    })(this)).error((function(_this) {
-      return function() {
-        return alert("OOPS!");
-      };
-    })(this));
-  };
-
-  return SessionsCtrl;
-
-})();
-
-SessionController.controller("SessionsCtrl", ["$scope", "$http", "$resource", "$rootScope", "$location", '$state', SessionsCtrl]);
 
 var TabFactories;
 

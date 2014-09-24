@@ -16,7 +16,7 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
     controller: "DashCtrl"
   })
   .state( "dash-home", {
-    url: "/user/:user_id/home",
+    url: "/user/home",
     name: 'dash-home',
     templateUrl: "templates/dash-home.html",
     controller: "DashCtrl"
@@ -57,7 +57,7 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
     controller: "CirclesCtrl"
   })
   .state('circle-new', {
-    url: '/user/:user_id/circle-new',
+    url: '/circle-new',
     templateUrl: "templates/circle-new.html",
     controller: "CirclesCtrl"
   })

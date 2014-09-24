@@ -1,7 +1,26 @@
-<ion-view title="Users"class="">
+<ion-view title="{{current_user.firstname}} Dashboard"class="">
 	<ion-content class="grey-bg tab-bottom">
 	 	<div class="list">
-			Hello
+			  <label class="item item-input">
+				<i class="icon ion-search placeholder-icon"></i>
+			    <input type="text" placeholder="Search" ng-model="query">
+			  </label>
+			<!-- <div class="item item-divider">Hosted Rooms</div> -->
+			<div class="item item-divider">Current Rooms</div>
+			<div ng-repeat="room in current_room | filter: query">
+	 		<a href="#/circle/{{room.id}}/user/:id" class="item item-avatar">
+
+	 			<h3>{{room.rm_name}}</h3>
+	 			<div class="">
+					<p>Num. of People: {{room.users.length}}/{{room.num_people}}</p>
+					<div ng-repeat="user in room.users | filter:{id: room.user_room[0].host_id }">
+						<img src="{{user.image_url}}" alt="">
+						<p>Host: {{user.firstname}}</p>
+					</div>
+					<p>Cash Buy-in: ${{room.cash_pot}} / {{room.schedule}}</p>
+				</div>
+	 		</a>
+	 		</div>
 	 	</div>
 	</ion-content>
 	<div ng-include src="'templates/user-tabs.html'"></div>

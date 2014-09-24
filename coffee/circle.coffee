@@ -1,4 +1,4 @@
-app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', 'Circle', ($scope, $http, $stateParams, $state, Circle)->
+app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', '$rootScope', 'Circle', ($scope, $http, $stateParams, $state, $rootScope, Circle)->
 	console.log("Hello")
 	$scope.circles = []
 	$scope.circle = {}
@@ -17,7 +17,7 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', 'Cir
 		console.log({room: $scope.circle})
 		conf = confirm "Are you sure?"
 		if conf
-			$http.post("http://localhost:3000/user/#{$stateParams.user_id}/rooms.json", {room: $scope.circle}).success((data) ->
+			$http.post("http://localhost:3000/user/#{$rootScope.current_user.id}/rooms.json", {room: $scope.circle}).success((data) ->
 			# $http.post("http://localhost:3000/rooms.json", {room: $scope.circle}).success((data) ->
 				$scope.circles.push data
 				console.log "Data ", data

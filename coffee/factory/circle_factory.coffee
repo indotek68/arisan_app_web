@@ -6,8 +6,8 @@ CircleFactories.factory('Circle', ['$http', ($http)->
 			$http.get("http://localhost:3000/rooms.json").success (data)->
 				console.log (data)
 
-		post: (newCircle)->
-			$http.post("http://localhost:3000/rooms.json", {room: newCircle})
+		# post: (newCircle)->
+		# 	$http.post("http://localhost:3000/rooms.json", {room: newCircle})
 
 		show: (id)->
 			$http.get("http://localhost:3000/rooms/#{id}.json")

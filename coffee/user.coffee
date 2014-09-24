@@ -1,4 +1,4 @@
-app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', '$location', 'User', ($scope, $http, $stateParams, $state, $location, User)->
+app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', '$location', '$rootScope', 'User', ($scope, $http, $stateParams, $state, $location, $rootScope, User)->
 	$scope.users = [];
 	$scope.newUser = {};
 	$scope.user = {};
@@ -14,6 +14,7 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', '$loca
 			console.log data
 			$scope.users.push data
 			$scope.newUser = {}
+			$http.post("http://localhost:3000/login.json", {user: loginUser})
 			# $state.go('signin')
 		).error (errs) ->
   			$scope.errors = errs["errors"]
