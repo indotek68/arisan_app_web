@@ -1,4 +1,4 @@
-<ion-view title="Circles"class="">
+<!-- <ion-view title="Circles"class="">
 	<ion-content class="grey-bg tab-bottom">
 	 	<div class="list">
 			  <label class="item item-input">
@@ -6,15 +6,44 @@
 			    <input type="text" placeholder="Search" ng-model="query">
 			  </label>
 			<div ng-repeat="circle in circles | filter: query">
-	 		<a href="#/circle/{{circle.id}}/user/:id" class="item item-avatar">
-		 		<!-- <img src="{{user.image_url}}" alt=""> -->
-	 			<h3>{{circle.rm_name}}</h3>
-	 			<div class="">
-					<p>Num. of People: {{circle.users.length}}/{{circle.num_people}}</p>
-					<p>Host: </p>
+	 		<a href="#/circle/{{circle.id}}/user/:id" class="item">
+		 		
+		 		<h3>{{circle.rm_name}}</h3>
+				<p>Num. of People: {{circle.users.length}}/{{circle.num_people}}</p>
+				<div ng-repeat="host in circle.users | filter: {id: circle.user_room[0].host_id}">
+					<img src="{{host.image_url}}" alt="">
+					<p>Host: {{host.firstname}}</p>
+				</div>
+				<div>
 					<p>Cash Buy-in: ${{circle.cash_pot}} / {{circle.schedule}}</p>
 				</div>
-	 		</a>
+		 	</a>
+	 		</div>
+	 	</div>
+	</ion-content>
+	<div ng-include src="'templates/user-tabs.html'"></div>
+</ion-view> -->
+
+
+<ion-view title="Circles"class="">
+	<ion-content class="grey-bg tab-bottom">
+	 	<div class="list">
+			  <label class="item item-input">
+				<i class="icon ion-search placeholder-icon"></i>
+			    <input type="text" placeholder="Search" ng-model="query">
+			  </label>
+			<!-- <div class="item item-divider">Hosted Rooms</div> -->
+			<div class="item item-divider">Circles</div>
+			<div ng-repeat="circle in circles | filter: query">
+		 		<a href="#/circle/{{circle.id}}/user/:id" class="item">
+					<div ng-repeat="user in circle.users | filter:{id: circle.user_room[0].host_id }" class="item-thumbnail-left">
+					<img src="{{user.image_url}}" alt="">
+		 			<h3>{{circle.rm_name}}</h3>
+						<p>Num. of People: {{circle.users.length}}/{{circle.num_people}}</p>
+						<p>Host: {{user.firstname}}</p>
+						<p>Cash Buy-in: ${{circle.cash_pot}} / {{circle.schedule}}</p>
+					</div>
+		 		</a>
 	 		</div>
 	 	</div>
 	</ion-content>
