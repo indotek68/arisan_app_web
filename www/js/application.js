@@ -68,7 +68,7 @@ app.controller("CirclesCtrl", [
     $scope.getCircles = function() {
       return Circle.all().success(function(data) {
         $scope.circles = data;
-        return console.log(data);
+        return console.log("Circle Index", data);
       });
     };
     $scope.createCircle = function() {

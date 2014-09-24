@@ -6,7 +6,7 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', '$ro
 	$scope.getCircles = ->
 		Circle.all().success (data) ->
 			$scope.circles = data
-			console.log(data)
+			console.log "Circle Index", data
 
 	# $scope.joinCircle = (data) ->
 	# 	$http.post("rooms/#{data.id}/users/#{$stateParams.user_id}").success (joinData) ->
