@@ -12,8 +12,8 @@ UserFactories.factory('User', ['$http', ($http)->
 		show: (id)->
 			$http.get("http://localhost:3000/users/#{id}.json")
 
-		edit: (user)->
-			$http.put("http://localhost:3000/users/#{user.id}.json", user)
+		# edit: (user)->
+		# 	$http.put("http://localhost:3000/users/#{user}.json", {user: user})
 
 	}
 ])

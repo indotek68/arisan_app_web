@@ -9,8 +9,14 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
   	templateUrl: "templates/main.html",
   	controller: "UsersCtrl"
   })
+  .state('menu', {
+      url: "/menu",
+      # abstract: true,
+      templateUrl: "templates/menu.html",
+      controller: 'DashCtrl'
+  })
   .state( "dash", {
-    url: "/user/:user_id/dash",
+    url: "/user/dash",
     name: 'dash',
     templateUrl: "templates/dash-index.html",
     controller: "DashCtrl"

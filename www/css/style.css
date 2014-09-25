@@ -53,6 +53,11 @@ h4.logo{
 	bottom: .1em;
 }
 
+.logout {
+	position: relative;
+	top: 20em;
+}
+
 .pink-bg {
 	background-color: #ff5f69;
 }

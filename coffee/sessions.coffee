@@ -4,7 +4,7 @@ app.controller "SessionsCtrl", ["$scope", "$http", "$rootScope", "$location", '$
 		.success( (user)=>
 			# console.log "Helllllo", user
 			$rootScope.current_user = user
-			$state.go('dash-home')
+			$state.go('dash')
 		).error (errors)=>
 			# console.log errors
 			alert "Invalid email or password"

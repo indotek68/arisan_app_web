@@ -1,0 +1,24 @@
+
+ <ion-modal-view>
+    <ion-header-bar class="bar bar-stable">
+    <button class="button button-icon icon ion-navicon" ng-click="closeModal()"></button>
+      <h1 class="title">Settings </h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+      	<a class="item item-icon-left" href="#/circle-new" ng-click="closeModal()">
+    	    <i class="icon ion-ionic"></i>
+    	    Create Circle
+      	</a>
+      	<a class="item item-icon-left item-icon-left" href="#/user/{{current_user.id}}/edit" ng-click="closeModal()">
+    	    <i class="icon ion-person"></i>
+          Edit Profile
+      	</a>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="button button-block button-assertive logout">Logout</button>
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>

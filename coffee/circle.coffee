@@ -2,6 +2,7 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', '$ro
 	console.log("Hello")
 	$scope.circles = []
 	$scope.circle = {}
+	$scope.joinShow = true
 
 	$scope.getCircles = ->
 		Circle.all().success (data) ->
@@ -30,13 +31,17 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', '$ro
 		# console.log $stateParams
 		Circle.show($stateParams.circle_id).success (data) ->
 			$scope.circle = data
-			# console.log data
+			# console.log "Show Circle", data
 
 	$scope.circleInfo = ->
 		# console.log $stateParams#{$stateParams.circle_id}
 		Circle.info($stateParams.circle_id).success (data) ->
 			$scope.circleInfo = data
-			console.log data
+			console.log "Circle Info", data
+			for item in data
+				if $rootScope.current_user.id == item.id
+					$scope.joinShow = false
+			
 
 	$scope.userGo = ->
   		console.log "Hello"

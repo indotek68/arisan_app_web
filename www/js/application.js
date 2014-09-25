@@ -14,8 +14,12 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
     url: "/",
     templateUrl: "templates/main.html",
     controller: "UsersCtrl"
+  }).state('menu', {
+    url: "/menu",
+    templateUrl: "templates/menu.html",
+    controller: 'DashCtrl'
   }).state("dash", {
-    url: "/user/:user_id/dash",
+    url: "/user/dash",
     name: 'dash',
     templateUrl: "templates/dash-index.html",
     controller: "DashCtrl"
@@ -65,6 +69,7 @@ app.controller("CirclesCtrl", [
     console.log("Hello");
     $scope.circles = [];
     $scope.circle = {};
+    $scope.joinShow = true;
     $scope.getCircles = function() {
       return Circle.all().success(function(data) {
         $scope.circles = data;
@@ -101,8 +106,19 @@ app.controller("CirclesCtrl", [
     };
     $scope.circleInfo = function() {
       return Circle.info($stateParams.circle_id).success(function(data) {
+        var item, _i, _len, _results;
         $scope.circleInfo = data;
-        return console.log(data);
+        console.log("Circle Info", data);
+        _results = [];
+        for (_i = 0, _len = data.length; _i < _len; _i++) {
+          item = data[_i];
+          if ($rootScope.current_user.id === item.id) {
+            _results.push($scope.joinShow = false);
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
       });
     };
     $scope.userGo = function() {
@@ -117,11 +133,13 @@ app.controller("CirclesCtrl", [
 
 app.controller("DashCtrl", [
   "$scope", "$http", '$stateParams', '$state', '$rootScope', function($scope, $http, $stateParams, $state, $rootScope) {
-    $scope.current_user = $rootScope.current_user;
+    console.log("STARTING TWO");
     $scope.getCurrentRooms = function() {
-      return $http.get("http://localhost:3000/user/" + $scope.current_user.id + "/dash.json").success(function(data) {
-        console.log("UserRoom", data);
-        return $scope.current_room = data;
+      return $scope.$watch("current_user", function() {
+        return $http.get("http://localhost:3000/user/" + $scope.current_user.id + "/dash.json").success(function(data) {
+          console.log("UserRoom", data);
+          return $scope.current_room = data;
+        });
       });
     };
     $scope.userGo = function() {
@@ -137,16 +155,40 @@ app.controller("DashCtrl", [
 ]);
 
 app.controller("MainCtrl", [
-  "$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
+  "$scope", "$http", "$rootScope", '$ionicModal', function($scope, $http, $rootScope, $ionicModal) {
+    console.log("STARTIN");
     if (!$scope.current_user) {
       console.log("Checking for current user");
-      return $http.get("http://localhost:3000/logged_in_user.json").success((function(_this) {
+      $http.get("http://localhost:3000/logged_in_user.json").success((function(_this) {
         return function(user) {
           console.log("Welcome, ", user);
           return $rootScope.current_user = user;
         };
       })(this));
     }
+    return $ionicModal.fromTemplateUrl('templates/modal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.closeModal = function() {
+        console.log("Hello Hello");
+        console.log($scope.modal);
+        return $scope.modal.hide();
+      };
+      $scope.hello = function() {
+        return alert("Hello");
+      };
+      $scope.openModal = function() {
+        console.log($scope.modal);
+        return $scope.modal.show();
+      };
+      $scope.$on('$destroy', function() {
+        return $scope.modal.remove();
+      });
+      $scope.$on('modal.hidden', function() {});
+      return $scope.$on(modal.removed, function() {});
+    });
   }
 ]);
 
@@ -158,7 +200,7 @@ app.controller("SessionsCtrl", [
       }).success((function(_this) {
         return function(user) {
           $rootScope.current_user = user;
-          return $state.go('dash-home');
+          return $state.go('dash');
         };
       })(this)).error((function(_this) {
         return function(errors) {
@@ -171,21 +213,27 @@ app.controller("SessionsCtrl", [
 
 app.controller("UsersCtrl", [
   "$scope", "$http", '$stateParams', '$state', '$location', '$rootScope', 'User', function($scope, $http, $stateParams, $state, $location, $rootScope, User) {
+    console.log("Initialized UsersCtrl");
+    console.log($rootScope);
     $scope.users = [];
     $scope.newUser = {};
     $scope.user = {};
+    $scope.current_user = $rootScope.current_user;
     $scope.getUsers = function() {
       return User.all().success(function(data) {
         return $scope.users = data;
       });
     };
     $scope.createUser = function() {
+      console.log("Running!");
+      console.log($scope.newUser);
       return User.post($scope.newUser).success(function(data) {
         console.log(data);
         $scope.users.push(data);
         $scope.newUser = {};
-        return $http.post("http://localhost:3000/login.json", {
-          user: loginUser
+        $rootScope.current_user = data;
+        return $state.go('user-edit', {
+          user_id: $rootScope.current_user.id
         });
       }).error(function(errs) {
         $scope.errors = errs["errors"];
@@ -194,14 +242,19 @@ app.controller("UsersCtrl", [
     };
     $scope.showUser = function() {
       return User.show($stateParams.user_id).success(function(data) {
-        return $scope.user = data;
+        $scope.user = data;
+        if ($scope.current_user.id === data.id) {
+          return $scope.show = true;
+        }
       });
     };
     $scope.editUser = function(user) {
-      User.edit(user).success(function(data) {
+      $http.put("http://localhost:3000/users/" + $stateParams.user_id + ".json", {
+        user: user
+      }).success(function(data) {
         console.log(data);
         return $state.go('user-page', {
-          user_id: user.id
+          user_id: $stateParams.user_id
         });
       });
       return $scope.userGo = function() {
@@ -259,9 +312,6 @@ UserFactories.factory('User', [
       },
       show: function(id) {
         return $http.get("http://localhost:3000/users/" + id + ".json");
-      },
-      edit: function(user) {
-        return $http.put("http://localhost:3000/users/" + user.id + ".json", user);
       }
     };
   }
