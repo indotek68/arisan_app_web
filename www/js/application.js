@@ -107,8 +107,8 @@ app.controller("CirclesCtrl", [
     $scope.circleInfo = function() {
       return Circle.info($stateParams.circle_id).success(function(data) {
         var item, _i, _len, _results;
-        $scope.circleInfo = data;
         console.log("Circle Info", data);
+        $scope.circleInfo = data;
         _results = [];
         for (_i = 0, _len = data.length; _i < _len; _i++) {
           item = data[_i];

@@ -10,9 +10,21 @@
 		  <p class="item">
 		    Total Cash Pot: ${{circle.cash_pot * circle.num_people}} / {{circle.schedule}}
 		  </p>
-		  
-		  <div class="item item-divider">Guest</div>
-		  <div ng-repeat="guest in circleInfo">
+		  <p class="item">Start date: {{circle.startdate | date: "MM/dd/yyyy 'at' h:mma"}}</p>
+		  <p class="item">End date: </p>
+		  <div class="item item-divider">Host</div>
+		  <div ng-repeat="guest in circleInfo.users | filter: {id: circleInfo.user_room[0].host_id}">
+			  <a href="#/user/{{guest.id}}" ng-click="showUser(user)"class="item item-avatar">
+			 		<img src="{{guest.image_url}}" alt="">
+		 			<h3>{{guest.firstname}} {{guest.lastname}}</h3>
+		 			<div class="">
+						<i class="icon ion-star"></i> 
+						{{guest.reputation}}
+					</div>
+		 		</a>
+		  </div>
+		  <div class="item item-divider">Guests</div>
+		  <div ng-repeat="guest in circleInfo.users | orderBy: 'lastname' | filter:{id: '!'+circleInfo.user_room[0].host_id}">
 			  <a href="#/user/{{guest.id}}" ng-click="showUser(user)"class="item item-avatar">
 			 		<img src="{{guest.image_url}}" alt="">
 		 			<h3>{{guest.firstname}} {{guest.lastname}}</h3>

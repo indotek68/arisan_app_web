@@ -36,8 +36,8 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', '$ro
 	$scope.circleInfo = ->
 		# console.log $stateParams#{$stateParams.circle_id}
 		Circle.info($stateParams.circle_id).success (data) ->
-			$scope.circleInfo = data
 			console.log "Circle Info", data
+			$scope.circleInfo = data
 			for item in data
 				if $rootScope.current_user.id == item.id
 					$scope.joinShow = false

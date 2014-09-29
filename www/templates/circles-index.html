@@ -8,14 +8,15 @@
 			  </label>
 			<!-- <div class="item item-divider">Hosted Rooms</div> -->
 			<div class="item item-divider">Circles</div>
-			<div ng-repeat="circle in circles | filter: query">
+			<div ng-repeat="circle in circles | filter: query | orderBy: 'startdate'">
 		 		<a href="#/circle/{{circle.id}}/user/{{current_user.id}}" class="item">
-					<div ng-repeat="user in circle.users | filter:{id: circle.user_room[0].host_id }" class="item-thumbnail-left">
+					<div ng-repeat="user in circle.users | filter:{id: circle.user_room[0].host_id}" class="item-thumbnail-left">
 					<img src="{{user.image_url}}" alt="">
 		 			<h3>{{circle.rm_name}}</h3>
 						<p>Num. of People: {{circle.users.length}}/{{circle.num_people}}</p>
 						<p>Host: {{user.firstname}}</p>
 						<p>Cash Buy-in: ${{circle.cash_pot}} / {{circle.schedule}}</p>
+						<p>Startdate: {{circle.startdate | date: "MM/dd/yyyy"}}</p>
 					</div>
 		 		</a>
 	 		</div>

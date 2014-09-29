@@ -10,12 +10,13 @@
 			<div class="item item-divider">Current Rooms</div>
 			<div ng-repeat="room in current_room | filter: query">
 		 		<a href="#/circle/{{room.id}}/user/:id" class="item">
-					<div ng-repeat="user in room.users | filter:{id: room.user_room[0].host_id }" class="item-thumbnail-left">
+					<div ng-repeat="user in room.users | filter:{id: room.user_room[0].host_id} | orderBy: 'startdate'" class="item-thumbnail-left">
 					<img src="{{user.image_url}}" alt="">
 		 			<h3>{{room.rm_name}}</h3>
 						<p>Num. of People: {{room.users.length}}/{{room.num_people}}</p>
 						<p>Host: {{user.firstname}}</p>
 						<p>Cash Buy-in: ${{room.cash_pot}} / {{room.schedule}}</p>
+						<p>Startdate: {{room.startdate | date: "MM/dd/yyyy"}}</p>
 					</div>
 		 		</a>
 	 		</div>
