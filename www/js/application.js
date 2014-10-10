@@ -66,14 +66,11 @@ app = angular.module("starter", ["ionic", 'auth0', 'UserFactories', 'CircleFacto
 
 app.controller("CirclesCtrl", [
   "$scope", "$http", "$stateParams", '$state', '$rootScope', 'Circle', function($scope, $http, $stateParams, $state, $rootScope, Circle) {
-    console.log("Hello");
     $scope.circles = [];
     $scope.circle = {};
-    $scope.joinShow = true;
     $scope.getCircles = function() {
       return Circle.all().success(function(data) {
-        $scope.circles = data;
-        return console.log("Circle Index", data);
+        return $scope.circles = data;
       });
     };
     $scope.createCircle = function() {
@@ -88,7 +85,6 @@ app.controller("CirclesCtrl", [
           room: $scope.circle
         }).success(function(data) {
           $scope.circles.push(data);
-          console.log("Data ", data);
           return $state.go('circle-page', {
             user_id: $stateParams.user_id,
             circle_id: data.id
@@ -106,12 +102,13 @@ app.controller("CirclesCtrl", [
     };
     $scope.circleInfo = function() {
       return Circle.info($stateParams.circle_id).success(function(data) {
-        var item, _i, _len, _results;
+        var item, _i, _len, _ref, _results;
         console.log("Circle Info", data);
         $scope.circleInfo = data;
+        _ref = data['users'];
         _results = [];
-        for (_i = 0, _len = data.length; _i < _len; _i++) {
-          item = data[_i];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
           if ($rootScope.current_user.id === item.id) {
             _results.push($scope.joinShow = false);
           } else {
@@ -119,6 +116,11 @@ app.controller("CirclesCtrl", [
           }
         }
         return _results;
+      });
+    };
+    $scope.joinCircle = function() {
+      return $http.post("http://localhost:3000/rooms/" + $stateParams.circle_id + "/users/" + $rootScope.current_user.id + ".json").success(function(joinData) {
+        return console.log("After post");
       });
     };
     $scope.userGo = function() {
