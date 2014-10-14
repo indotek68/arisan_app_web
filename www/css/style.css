@@ -3,14 +3,20 @@
 body {
 	font-size: 15px;
 	color: #333;
-
-	background: #fff;
+	background-color: #dfdfdf;
+	/*background: #fff;*/
 	padding: 0;
 	margin: 0;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-style: normal;
 	line-height: 1;
 }
+
+
+/*.body-container{
+	background-color: #dfdfdf;
+	position: relative;
+}*/
 
 html {
   font-size: 100%;
@@ -53,6 +59,16 @@ h4.logo{
 	bottom: .1em;
 }
 
+.device-container{
+	margin: 0 auto;
+	max-width: 325px;
+	width: 100%;
+}
+
+.iPhone{
+
+}
+
 .logout {
 	position: relative;
 	top: 20em;
@@ -91,8 +107,6 @@ h4.logo{
 .text-error {
 	color:#a94442;
 }
-
-
 
 .authorHeader {
 	position: relative;
