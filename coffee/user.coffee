@@ -34,13 +34,13 @@ app.controller "UsersCtrl", ["$scope", "$http", '$stateParams', '$state', '$loca
 				$scope.show = true
 
 	$scope.editUser = (user) ->
-		$http.put("http://localhost:3000/users/#{$stateParams.user_id}.json", {user: user}).success (data)->
+		$http.put("http://arisan-api.herokuapp.com/users/#{$stateParams.user_id}.json", {user: user}).success (data)->
   			console.log(data)
   			$state.go('user-page', {user_id: $stateParams.user_id});
 		# console.log user
 		# # if $scope.current_user
 		# User.edit($stateParams.user_id).success (data) ->
-		# $http.put("http://localhost:3000/users/#{$stateParams.user_id}.json", {user: user}).succes (data)->
+		# $http.put("http://arisan-api.herokuapp.com/users/#{$stateParams.user_id}.json", {user: user}).succes (data)->
 		# # User.edit($stateParams.user_id).success (data) ->
   # 			console.log(data)
   # 			$state.go('user-page', {user_id: $stateParams.user_id});

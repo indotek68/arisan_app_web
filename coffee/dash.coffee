@@ -2,7 +2,7 @@ app.controller "DashCtrl", ["$scope", "$http", '$stateParams', '$state', '$rootS
 	console.log "STARTING TWO"
 	$scope.getCurrentRooms = ->
 		$scope.$watch "current_user", ()->
-			$http.get("http://localhost:3000/user/#{$scope.current_user.id}/dash.json").success (data)->
+			$http.get("http://arisan-api.herokuapp.com/user/#{$scope.current_user.id}/dash.json").success (data)->
 				console.log "UserRoom", data
 				$scope.current_room = data
 			# console.log data[0]["user_room"]

@@ -1,6 +1,6 @@
 app.controller "SessionsCtrl", ["$scope", "$http", "$rootScope", "$location", '$state', ($scope, $http, $rootScope, $location, $state)->
 	$scope.addSession = (loginUser)->
-		$http.post("http://localhost:3000/login.json", {user: loginUser})
+		$http.post("http://arisan-api.herokuapp.com/login.json", {user: loginUser})
 		.success( (user)=>
 			# console.log "Helllllo", user
 			$rootScope.current_user = user

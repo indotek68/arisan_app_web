@@ -81,7 +81,7 @@ app.controller("CirclesCtrl", [
       });
       conf = confirm("Are you sure?");
       if (conf) {
-        return $http.post("http://localhost:3000/user/" + $rootScope.current_user.id + "/rooms.json", {
+        return $http.post("http://arisan-api.herokuapp.com/user/" + $rootScope.current_user.id + "/rooms.json", {
           room: $scope.circle
         }).success(function(data) {
           $scope.circles.push(data);
@@ -119,7 +119,7 @@ app.controller("CirclesCtrl", [
       });
     };
     $scope.joinCircle = function() {
-      return $http.post("http://localhost:3000/rooms/" + $stateParams.circle_id + "/users/" + $rootScope.current_user.id + ".json").success(function(joinData) {
+      return $http.post("http://arisan-api.herokuapp.com/rooms/" + $stateParams.circle_id + "/users/" + $rootScope.current_user.id + ".json").success(function(joinData) {
         return console.log("After post");
       });
     };
@@ -138,7 +138,7 @@ app.controller("DashCtrl", [
     console.log("STARTING TWO");
     $scope.getCurrentRooms = function() {
       return $scope.$watch("current_user", function() {
-        return $http.get("http://localhost:3000/user/" + $scope.current_user.id + "/dash.json").success(function(data) {
+        return $http.get("http://arisan-api.herokuapp.com/user/" + $scope.current_user.id + "/dash.json").success(function(data) {
           console.log("UserRoom", data);
           return $scope.current_room = data;
         });
@@ -161,7 +161,7 @@ app.controller("MainCtrl", [
     console.log("STARTIN");
     if (!$scope.current_user) {
       console.log("Checking for current user");
-      $http.get("http://localhost:3000/logged_in_user.json").success((function(_this) {
+      $http.get("http://arisan-api.herokuapp.com/logged_in_user.json").success((function(_this) {
         return function(user) {
           console.log("Welcome, ", user);
           return $rootScope.current_user = user;
@@ -197,7 +197,7 @@ app.controller("MainCtrl", [
 app.controller("SessionsCtrl", [
   "$scope", "$http", "$rootScope", "$location", '$state', function($scope, $http, $rootScope, $location, $state) {
     return $scope.addSession = function(loginUser) {
-      return $http.post("http://localhost:3000/login.json", {
+      return $http.post("http://arisan-api.herokuapp.com/login.json", {
         user: loginUser
       }).success((function(_this) {
         return function(user) {
@@ -251,7 +251,7 @@ app.controller("UsersCtrl", [
       });
     };
     $scope.editUser = function(user) {
-      $http.put("http://localhost:3000/users/" + $stateParams.user_id + ".json", {
+      $http.put("http://arisan-api.herokuapp.com/users/" + $stateParams.user_id + ".json", {
         user: user
       }).success(function(data) {
         console.log(data);
@@ -277,15 +277,15 @@ CircleFactories.factory('Circle', [
   '$http', function($http) {
     return {
       all: function() {
-        return $http.get("http://localhost:3000/rooms.json").success(function(data) {
+        return $http.get("http://arisan-api.herokuapp.com/rooms.json").success(function(data) {
           return console.log(data);
         });
       },
       show: function(id) {
-        return $http.get("http://localhost:3000/rooms/" + id + ".json");
+        return $http.get("http://arisan-api.herokuapp.com/rooms/" + id + ".json");
       },
       info: function(id) {
-        return $http.get("http://localhost:3000/rooms/" + id + "/users.json");
+        return $http.get("http://arisan-api.herokuapp.com/rooms/" + id + "/users.json");
       }
     };
   }
@@ -303,17 +303,17 @@ UserFactories.factory('User', [
   '$http', function($http) {
     return {
       all: function() {
-        return $http.get("http://localhost:3000/users.json").success(function(data) {
+        return $http.get("http://arisan-api.herokuapp.com/users.json").success(function(data) {
           return console.log(data);
         });
       },
       post: function(newUser) {
-        return $http.post("http://localhost:3000/users.json", {
+        return $http.post("http://arisan-api.herokuapp.com/users.json", {
           user: newUser
         });
       },
       show: function(id) {
-        return $http.get("http://localhost:3000/users/" + id + ".json");
+        return $http.get("http://arisan-api.herokuapp.com/users/" + id + ".json");
       }
     };
   }

@@ -13,7 +13,7 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', '$ro
 		console.log({room: $scope.circle})
 		conf = confirm "Are you sure?"
 		if conf
-			$http.post("http://localhost:3000/user/#{$rootScope.current_user.id}/rooms.json", {room: $scope.circle}).success((data) ->
+			$http.post("http://arisan-api.herokuapp.com/user/#{$rootScope.current_user.id}/rooms.json", {room: $scope.circle}).success((data) ->
 				$scope.circles.push data
 				$state.go('circle-page', {user_id:$stateParams.user_id, circle_id: data.id})
 			).error (errs) ->
@@ -35,7 +35,7 @@ app.controller "CirclesCtrl", ["$scope", "$http", "$stateParams", '$state', '$ro
 
 	$scope.joinCircle = () ->
 		# console.log "Before post", data
-		$http.post("http://localhost:3000/rooms/#{$stateParams.circle_id}/users/#{$rootScope.current_user.id}.json").success (joinData) ->
+		$http.post("http://arisan-api.herokuapp.com/rooms/#{$stateParams.circle_id}/users/#{$rootScope.current_user.id}.json").success (joinData) ->
 			console.log "After post"
 
 	$scope.userGo = ->
